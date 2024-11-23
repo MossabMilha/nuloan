@@ -41,6 +41,10 @@ set(SOURCE_FILES
         Send_Email.h
         hash_password.c
         hash_password.h
+        Bank_information.c
+        Bank_information.h
+        Check_Bank_Information.c
+        Check_Bank_Information.h
 )
 
 # Add your executable and link it with GTK4, libgcrypt, CURL, and regex libraries

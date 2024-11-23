@@ -6,6 +6,7 @@
 #include <time.h>
 #include "Send_Email.h"
 #include "hash_password.h"
+#include "Bank_information.h"
 typedef struct User {
     int user_id;
     char role[10];
@@ -64,21 +65,10 @@ void Check(GtkWidget *button, gpointer user_data) {
         new_user.created_at = time(NULL);
         new_user.updated_at = time(NULL);
         strcpy(new_user.status, "Active");
-        printf("user_id: %d\n", new_user.user_id);
-        printf("role: %s\n", new_user.role);
-        printf("first_name: %s\n", new_user.first_name);
-        printf("last_name: %s\n", new_user.last_name);
-        printf("cin: %s\n", new_user.cin);
-        printf("email: %s\n", new_user.email);
-        printf("birthday: %s\n", new_user.birthday);
-        printf("password_hashed: ");
-        for (int i = 0; i < 32; i++) {
-            printf("%02x", new_user.password_hashed[i]);
-        }
-        printf("\n");
-        printf("created_at: %ld\n", new_user.created_at);
-        printf("updated_at: %ld\n", new_user.updated_at);
-        printf("status: %s\n", new_user.status);
+        Bank_Information_open();
+
+
+
 
     } else {
         g_print("Incorrect Code\n");

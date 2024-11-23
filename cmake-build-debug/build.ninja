@@ -98,6 +98,20 @@ build CMakeFiles/nuloan_project.dir/hash_password.c.obj: C_COMPILER__nuloan_proj
   OBJECT_DIR = CMakeFiles\nuloan_project.dir
   OBJECT_FILE_DIR = CMakeFiles\nuloan_project.dir
 
+build CMakeFiles/nuloan_project.dir/Bank_information.c.obj: C_COMPILER__nuloan_project_unscanned_Debug C$:/Users/PC/CLionProjects/nuloan_project/Bank_information.c || cmake_object_order_depends_target_nuloan_project
+  DEP_FILE = CMakeFiles\nuloan_project.dir\Bank_information.c.obj.d
+  FLAGS = -g -std=gnu11 -fdiagnostics-color=always -IC:/msys64/mingw64/bin/../include/gtk-4.0 -IC:/msys64/mingw64/bin/../include/pango-1.0 -IC:/msys64/mingw64/bin/../include/fribidi -IC:/msys64/mingw64/bin/../include -IC:/msys64/mingw64/bin/../include/harfbuzz -IC:/msys64/mingw64/bin/../include/gdk-pixbuf-2.0 -IC:/msys64/mingw64/bin/../include/webp -DLIBDEFLATE_DLL -IC:/msys64/mingw64/bin/../include/cairo -IC:/msys64/mingw64/bin/../include/freetype2 -IC:/msys64/mingw64/bin/../include/libpng16 -IC:/msys64/mingw64/bin/../include/pixman-1 -IC:/msys64/mingw64/bin/../include/graphene-1.0 -IC:/msys64/mingw64/bin/../lib/graphene-1.0/include -mfpmath=sse -msse -msse2 -IC:/msys64/mingw64/bin/../include/glib-2.0 -IC:/msys64/mingw64/bin/../lib/glib-2.0/include
+  INCLUDES = -IC:/msys64/mingw64/bin/../include/gtk-4.0 -IC:/msys64/mingw64/bin/../include/pango-1.0 -IC:/msys64/mingw64/bin/../include/fribidi -IC:/msys64/mingw64/bin/../include/harfbuzz -IC:/msys64/mingw64/bin/../include/gdk-pixbuf-2.0 -IC:/msys64/mingw64/bin/../include/webp -IC:/msys64/mingw64/bin/../include/cairo -IC:/msys64/mingw64/bin/../include/freetype2 -IC:/msys64/mingw64/bin/../include/libpng16 -IC:/msys64/mingw64/bin/../include/pixman-1 -IC:/msys64/mingw64/bin/../include/graphene-1.0 -IC:/msys64/mingw64/bin/../lib/graphene-1.0/include -IC:/msys64/mingw64/bin/../include/glib-2.0 -IC:/msys64/mingw64/bin/../lib/glib-2.0/include
+  OBJECT_DIR = CMakeFiles\nuloan_project.dir
+  OBJECT_FILE_DIR = CMakeFiles\nuloan_project.dir
+
+build CMakeFiles/nuloan_project.dir/Check_Bank_Information.c.obj: C_COMPILER__nuloan_project_unscanned_Debug C$:/Users/PC/CLionProjects/nuloan_project/Check_Bank_Information.c || cmake_object_order_depends_target_nuloan_project
+  DEP_FILE = CMakeFiles\nuloan_project.dir\Check_Bank_Information.c.obj.d
+  FLAGS = -g -std=gnu11 -fdiagnostics-color=always -IC:/msys64/mingw64/bin/../include/gtk-4.0 -IC:/msys64/mingw64/bin/../include/pango-1.0 -IC:/msys64/mingw64/bin/../include/fribidi -IC:/msys64/mingw64/bin/../include -IC:/msys64/mingw64/bin/../include/harfbuzz -IC:/msys64/mingw64/bin/../include/gdk-pixbuf-2.0 -IC:/msys64/mingw64/bin/../include/webp -DLIBDEFLATE_DLL -IC:/msys64/mingw64/bin/../include/cairo -IC:/msys64/mingw64/bin/../include/freetype2 -IC:/msys64/mingw64/bin/../include/libpng16 -IC:/msys64/mingw64/bin/../include/pixman-1 -IC:/msys64/mingw64/bin/../include/graphene-1.0 -IC:/msys64/mingw64/bin/../lib/graphene-1.0/include -mfpmath=sse -msse -msse2 -IC:/msys64/mingw64/bin/../include/glib-2.0 -IC:/msys64/mingw64/bin/../lib/glib-2.0/include
+  INCLUDES = -IC:/msys64/mingw64/bin/../include/gtk-4.0 -IC:/msys64/mingw64/bin/../include/pango-1.0 -IC:/msys64/mingw64/bin/../include/fribidi -IC:/msys64/mingw64/bin/../include/harfbuzz -IC:/msys64/mingw64/bin/../include/gdk-pixbuf-2.0 -IC:/msys64/mingw64/bin/../include/webp -IC:/msys64/mingw64/bin/../include/cairo -IC:/msys64/mingw64/bin/../include/freetype2 -IC:/msys64/mingw64/bin/../include/libpng16 -IC:/msys64/mingw64/bin/../include/pixman-1 -IC:/msys64/mingw64/bin/../include/graphene-1.0 -IC:/msys64/mingw64/bin/../lib/graphene-1.0/include -IC:/msys64/mingw64/bin/../include/glib-2.0 -IC:/msys64/mingw64/bin/../lib/glib-2.0/include
+  OBJECT_DIR = CMakeFiles\nuloan_project.dir
+  OBJECT_FILE_DIR = CMakeFiles\nuloan_project.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target nuloan_project
@@ -106,7 +120,7 @@ build CMakeFiles/nuloan_project.dir/hash_password.c.obj: C_COMPILER__nuloan_proj
 #############################################
 # Link the executable nuloan_project.exe
 
-build nuloan_project.exe: C_EXECUTABLE_LINKER__nuloan_project_Debug CMakeFiles/nuloan_project.dir/main.c.obj CMakeFiles/nuloan_project.dir/Check_User_Information.c.obj CMakeFiles/nuloan_project.dir/SignUp.c.obj CMakeFiles/nuloan_project.dir/Check_Signup_Information.c.obj CMakeFiles/nuloan_project.dir/Check_email.c.obj CMakeFiles/nuloan_project.dir/Send_Email.c.obj CMakeFiles/nuloan_project.dir/hash_password.c.obj | C$:/msys64/mingw64/lib/libcurl.dll.a
+build nuloan_project.exe: C_EXECUTABLE_LINKER__nuloan_project_Debug CMakeFiles/nuloan_project.dir/main.c.obj CMakeFiles/nuloan_project.dir/Check_User_Information.c.obj CMakeFiles/nuloan_project.dir/SignUp.c.obj CMakeFiles/nuloan_project.dir/Check_Signup_Information.c.obj CMakeFiles/nuloan_project.dir/Check_email.c.obj CMakeFiles/nuloan_project.dir/Send_Email.c.obj CMakeFiles/nuloan_project.dir/hash_password.c.obj CMakeFiles/nuloan_project.dir/Bank_information.c.obj CMakeFiles/nuloan_project.dir/Check_Bank_Information.c.obj | C$:/msys64/mingw64/lib/libcurl.dll.a
   FLAGS = -g
   LINK_FLAGS = -Wl,--enable-auto-import
   LINK_LIBRARIES = -lgtk-4  -lpangowin32-1.0  -lpangocairo-1.0  -lpango-1.0  -lharfbuzz  -lgdk_pixbuf-2.0  -lcairo-gobject  -lcairo  -lvulkan-1  -lgraphene-1.0  -lgio-2.0  -lgobject-2.0  -lglib-2.0  -lintl  -lgcrypt  C:/msys64/mingw64/lib/libcurl.dll.a  -lregex  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
