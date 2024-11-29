@@ -7,19 +7,6 @@
 #include "Send_Email.h"
 #include "hash_password.h"
 #include "Bank_information.h"
-typedef struct User {
-    int user_id;
-    char role[10];
-    char first_name[50];
-    char last_name[50];
-    char cin[10];
-    char email[50];
-    char birthday[11];
-    unsigned char password_hashed[50];
-    time_t created_at;
-    time_t updated_at;
-    char status[10];
-} User;
 User new_user;
 extern char global_first_name[50];
 extern char global_last_name[50];
@@ -65,10 +52,7 @@ void Check(GtkWidget *button, gpointer user_data) {
         new_user.created_at = time(NULL);
         new_user.updated_at = time(NULL);
         strcpy(new_user.status, "Active");
-        Bank_Information_open();
-
-
-
+        Bank_Information_open(new_window);
 
     } else {
         g_print("Incorrect Code\n");

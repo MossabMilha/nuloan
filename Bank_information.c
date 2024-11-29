@@ -3,8 +3,18 @@
 //
 
 #include "Bank_information.h"
-#include <gtk/gtk.h>
 #include "Check_Bank_Information.h"
+#include "Structures/Bank_User_info.h"
+#include "Save_file.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <gtk/gtk.h>
+#include <ctype.h>
+
+extern User new_user;
+Bank_User_info new_bank_user_info;
+
 void Check_Bank_Information(GtkWidget *widget, gpointer user_data) {
     //===========================================================
     GtkWidget *Bank_Information = GTK_WIDGET(user_data);
@@ -37,6 +47,19 @@ void Check_Bank_Information(GtkWidget *widget, gpointer user_data) {
         gtk_widget_set_visible(Bank_Name_Button, FALSE);
         gtk_widget_set_visible(Account_Holder_Name_Button, FALSE);
         gtk_widget_set_visible(Account_Number_Button, FALSE);
+        new_bank_user_info.bank_id = 1;
+        new_bank_user_info.user_id = new_user.user_id;
+        strcpy(new_bank_user_info.bank_name, Bank_Name_text);
+        strcpy(new_bank_user_info.account_type, Account_Type_text);
+        strcpy(new_bank_user_info.account_holder_name, Account_Holder_Name_text);
+        strcpy(new_bank_user_info.account_number, Account_Number_text);
+        time(&new_bank_user_info.created_at);
+        time(&new_bank_user_info.updated_at);
+        if(Save_Signup_Information(new_user, new_bank_user_info)) {
+            printf("the Bank Information is saved successfully\n");
+        }
+
+
 
     }else {
         if (is_Bank_Name_Valid(Bank_Name_text)) {
@@ -66,7 +89,9 @@ void Check_Bank_Information(GtkWidget *widget, gpointer user_data) {
         }
     }
 }
-void Bank_Information_open() {
+void Bank_Information_open(gpointer user_data) {
+
+    GtkWidget *main_window = GTK_WIDGET(user_data);
     // Create the Bank Information window
     GtkWidget *Bank_Information = gtk_window_new();
     gtk_window_set_title(GTK_WINDOW(Bank_Information), "Bank Information");
@@ -154,4 +179,5 @@ void Bank_Information_open() {
 
     // Show all widgets
     gtk_window_present(GTK_WINDOW(Bank_Information));
+    gtk_widget_hide(main_window);
 }

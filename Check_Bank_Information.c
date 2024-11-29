@@ -3,17 +3,15 @@
 //
 
 #include "Check_Bank_Information.h"
-#include <stdio.h>
-#include <stdlib.h>
+
 #include <string.h>
 #include <gtk/gtk.h>
 #include <ctype.h>
 bool is_empty(const gchar *elm_text) {
     if(strlen(elm_text) == 0){
         return TRUE;
-    }else {
-        return FALSE;
     }
+    return FALSE;
 }
 bool is_Bank_Name_Valid(const gchar *text) {
     const gchar *valid_bank_names[] = {
