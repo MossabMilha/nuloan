@@ -25,6 +25,7 @@ static void activate(GtkApplication *app, gpointer user_data) {
     gtk_window_set_default_size(GTK_WINDOW(window), 350, 600);
     gtk_window_set_resizable(GTK_WINDOW(window), FALSE);
 
+
     // Create a CSS provider and set the background color
     GtkCssProvider *provider = gtk_css_provider_new();
     gtk_css_provider_load_from_string(provider, "window { background-color: #FFFFFF; }");
@@ -62,6 +63,7 @@ static void activate(GtkApplication *app, gpointer user_data) {
 
     // Present the main window
     gtk_window_present(GTK_WINDOW(window));
+
 }
 
 int main(int argc, char **argv) {
