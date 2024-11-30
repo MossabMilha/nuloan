@@ -51,6 +51,9 @@ set(SOURCE_FILES
         Structures/Bank_User_info.h
         Structures/Roles.h
         Structures/LOAN_APPLICATIONS.h
+        Structures/LOAN_REPAYMENT_SCHEDULES.h
+        Structures/LOAN_TRANSACTIONS.h
+        Structures/LOAN_HISTORY.h
 )
 
 # Add your executable and link it with GTK4, libgcrypt, CURL, and regex libraries
