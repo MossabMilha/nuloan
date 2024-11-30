@@ -4,6 +4,7 @@
 
 #ifndef LOAN_APPLICATIONS_H
 #define LOAN_APPLICATIONS_H
+#include <time.h>
 typedef struct loan_applications {
     int loan_application_id;
     int user_id;
@@ -14,7 +15,9 @@ typedef struct loan_applications {
     float interest_rate;
     time_t repayment_start_date;
     int loan_duration;
-    float
+    float total_repayment;
+    time_t created_at;
+    time_t updated_at;
 
-};
+}loan_applications;
 #endif //LOAN_APPLICATIONS_H
