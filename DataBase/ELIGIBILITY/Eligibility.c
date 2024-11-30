@@ -147,7 +147,7 @@ Eligibility generate_eligibility(User user, LOAN_TERMS loan_terms, LOAN_APPLICAT
 void save_eligibility_to_file(const Eligibility *eligibility) {
     // Construire le chemin du fichier avec l'ID utilisateur
     char file_path[200];
-    snprintf(file_path, sizeof(file_path), "C:\\Users\\rachi\\CLionProjects\\nuloan\\DataBase\\Users_Bank_Information\\Eligibility\\user_%d.bin", eligibility->user_id);
+    snprintf(file_path, sizeof(file_path), "C:\\Users\\rachi\\CLionProjects\\nuloan\\DataBase\\ELIGIBILITY\\user_%d.bin", eligibility->user_id);
     // Ouvrir le fichier en mode binaire
     FILE *file = fopen(file_path, "wb");
     if (file == NULL) {
