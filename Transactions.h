@@ -37,7 +37,7 @@ typedef struct {
     char updated_at[50];
 } LOAN_APPLICATIONS;
 int LoanExistsWithStatus(LOAN_APPLICATIONS loan_application);
-int CalculateMonthlyPayment(LOAN_APPLICATIONS loan_application);
+float CalculateMonthlyPayment(LOAN_APPLICATIONS loan_application);
 int MakePaymentTransaction(LOAN_APPLICATIONS loan_application);
 
 #endif //TRANSACTIONS_H
