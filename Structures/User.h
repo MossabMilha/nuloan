@@ -5,7 +5,7 @@
 
 typedef struct User {
     int user_id;
-    char role[10];
+    char role[20];
     char first_name[50];
     char last_name[50];
     char cin[10];

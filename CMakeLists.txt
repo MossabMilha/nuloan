@@ -28,11 +28,12 @@ include_directories(${CURL_INCLUDE_DIRS})
 
 # Add your source files
 set(SOURCE_FILES
-    main.c
-    Check_User_Information.h
-    Check_User_Information.c
-    SignUp.c
-    SignUp.h
+        main.c
+        Login.c
+        Check_User_Information.c
+        Check_User_Information.h
+        SignUp.c
+        SignUp.h
         Check_Signup_Information.c
         Check_Signup_Information.h
         Check_email.c
@@ -54,6 +55,15 @@ set(SOURCE_FILES
         Structures/LOAN_REPAYMENT_SCHEDULES.h
         Structures/LOAN_TRANSACTIONS.h
         Structures/LOAN_HISTORY.h
+        Login_Process_Handle_Window.h
+        Login_Process_Handle_Window.c
+        Super_Admin.h
+        Super_Admin.c
+        Show_Users.c
+        Show_Users.h
+        Active_Member.c
+        Active_Member.h
+
 )
 
 # Add your executable and link it with GTK4, libgcrypt, CURL, and regex libraries

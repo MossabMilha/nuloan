@@ -39,7 +39,12 @@ void Check(GtkWidget *button, gpointer user_data) {
 
 
     if (atoi(Code_Text) == code_2FA) {
-        new_user.user_id = 1;
+        FILE *number_of_users = fopen("..\\DataBase\\Number_Of_Users.txt", "rt");
+        int number_of_users_int;
+        fscanf(number_of_users, "%d", &number_of_users_int);
+        printf("debug 1 : %d\n", number_of_users_int);
+        fclose(number_of_users);
+        new_user.user_id = number_of_users_int + 1;
         strcpy(new_user.role, "User");
         strcpy(new_user.first_name, global_first_name);
         strcpy(new_user.last_name, global_last_name);

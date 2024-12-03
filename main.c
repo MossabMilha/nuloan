@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <gtk/gtk.h>
 #include "SignUp.h"
+#include "Login.h"
 
 char global_first_name[50];
 char global_last_name[50];
@@ -46,7 +47,7 @@ static void activate(GtkApplication *app, gpointer user_data) {
     gtk_widget_set_size_request(Login_Button, 100, 50);
 
     // Connect the clicked signal of the login button, passing the main window as user_data
-    // g_signal_connect(Login_Button, "clicked", G_CALLBACK(login_button_clicked), window);
+    g_signal_connect(Login_Button, "clicked", G_CALLBACK(Login_UI), window);
 
     // Set the child widget
 
@@ -68,7 +69,7 @@ int main(int argc, char **argv) {
     GtkApplication *app;
     int status;
 
-    app = gtk_application_new("org.gtk.example", G_APPLICATION_FLAGS_NONE);
+    app = gtk_application_new("org.gtk.example", G_APPLICATION_DEFAULT_FLAGS);
     g_signal_connect(app, "activate", G_CALLBACK(activate), NULL);
 
     status = g_application_run(G_APPLICATION(app), argc, argv);

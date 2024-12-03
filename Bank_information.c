@@ -47,7 +47,8 @@ void Check_Bank_Information(GtkWidget *widget, gpointer user_data) {
         gtk_widget_set_visible(Bank_Name_Button, FALSE);
         gtk_widget_set_visible(Account_Holder_Name_Button, FALSE);
         gtk_widget_set_visible(Account_Number_Button, FALSE);
-        new_bank_user_info.bank_id = 1;
+        new_bank_user_info.bank_id = new_user.user_id;
+        printf("debug 2 : %d\n", new_user.user_id);
         new_bank_user_info.user_id = new_user.user_id;
         strcpy(new_bank_user_info.bank_name, Bank_Name_text);
         strcpy(new_bank_user_info.account_type, Account_Type_text);
