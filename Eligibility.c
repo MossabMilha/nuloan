@@ -1,7 +1,7 @@
 //
 // Created by rachi on 11/23/2024.
 //
-#include "Eligibility.h"
+#include "Structures/Eligibility.h"
 
 
 
@@ -62,57 +62,55 @@ int calculate_credit_score(User user, LOAN_APPLICATIONS loan_application) {
 
 
 
-Eligibility generate_eligibility(User user, LOAN_TERMS loan_terms, LOAN_APPLICATIONS loan_application) {
+void generate_eligibility(User user, LOAN_TERMS loan_terms, LOAN_APPLICATIONS loan_application) {
     Eligibility eligibility = {0};
 
-    // Remplir les données de base
+    // Fill in basic data
     eligibility.user_id = user.user_id;
+    eligibility.eligibility_id = loan_application.loan_id;
 
-
-    // Utiliser les données du prêt
+    // Use loan application data
     eligibility.credit_score = calculate_credit_score(user, loan_application);
     eligibility.income = loan_application.income;
     eligibility.loan_amount_request = loan_application.amount_requested;
     strncpy(eligibility.loan_type, loan_application.loan_type, sizeof(eligibility.loan_type));
 
-    // Calcul du statut de la demande
+    // Calculate application status
     if (eligibility.credit_score >= 650 && eligibility.income >= 3000.0 &&
         eligibility.loan_amount_request >= loan_terms.min_amount &&
         eligibility.loan_amount_request <= loan_terms.max_amount) {
         strncpy(eligibility.status, "Approved", sizeof(eligibility.status));
-        eligibility.approved_amount = eligibility.loan_amount_request; // Approuver tout le montant demandé
+        eligibility.approved_amount = eligibility.loan_amount_request; // Approve the full requested amount
         } else {
             strncpy(eligibility.status, "Rejected", sizeof(eligibility.status));
-            eligibility.approved_amount = 0.0; // Rejet
+            eligibility.approved_amount = 0.0; // Rejected
         }
 
-    // Remplir les champs de date
+    // Fill in date fields
     get_current_date(eligibility.created_at, sizeof(eligibility.created_at));
     strncpy(eligibility.updated_at, eligibility.created_at, sizeof(eligibility.updated_at));
 
-    return eligibility;
-}
-void save_eligibility_to_file(const Eligibility *eligibility) {
-    // Construire le chemin du fichier avec l'ID utilisateur
     char file_path[200];
-    snprintf(file_path, sizeof(file_path), "C:\\Users\\rachi\\CLionProjects\\nuloan\\DataBase\\ELIGIBILITY\\user_%d.bin", eligibility->user_id);
-    // Ouvrir le fichier en mode binaire
+    snprintf(file_path, sizeof(file_path), "C:\\Users\\rachi\\CLionProjects\\nuloan\\DataBase\\ELIGIBILITY\\user_%d.bin", eligibility.user_id);
+
+    // Open the file in binary mode
     FILE *file = fopen(file_path, "wb");
     if (file == NULL) {
-        perror("Erreur lors de l'ouverture du fichier");
+        perror("Error opening file");
         return;
     }
 
-    // Écrire la structure dans le fichier
-    if (fwrite(eligibility, sizeof(Eligibility), 1, file) != 1) {
-        perror("Erreur lors de l'écriture dans le fichier");
+    // Write the structure to the file
+    if (fwrite(&eligibility, sizeof(Eligibility), 1, file) != 1) {
+        perror("Error writing to file");
     } else {
-        printf("Les données ont été sauvegardées avec succès dans le fichier : %s\n", file_path);
+        printf("Data successfully saved to file: %s\n", file_path);
     }
 
-    // Fermer le fichier
+    // Close the file
     fclose(file);
 }
+
 /*int main() { //exemple bach ndire test
     // Créer un utilisateur factice avec des paramètres permettant une éligibilité approuvée
     User user = {0};

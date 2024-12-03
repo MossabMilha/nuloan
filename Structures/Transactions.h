@@ -8,7 +8,7 @@
 #include <string.h>
 #include <time.h>
 #include <stdlib.h>
-
+#include"Structures/LOAN_REPAYMENT_SCHEDULES.h"
 typedef struct TransactionPayment {
     int transaction_id;           // Identifiant unique pour la transaction (clé primaire)
     int loan_id;                  // Identifiant du prêt (clé étrangère)
@@ -21,23 +21,8 @@ typedef struct TransactionPayment {
     time_t updated_at;            // Date et heure de la dernière mise à jour
 } TransactionPayment;
 
-typedef struct {
-    int loan_id; // Primary Key
-    int user_id; // Foreign Key
-    float income; // Monthly income
-    float amount_requested;
-    char loan_type[50];
-    char application_status[50];
-    char application_date[50];
-    float interest_rate;
-    char repayment_start_date[50];
-    int loan_duration;
-    float total_repayment;
-    char created_at[50];
-    char updated_at[50];
-} LOAN_APPLICATIONS;
 int LoanExistsWithStatus(LOAN_APPLICATIONS loan_application);
 float CalculateMonthlyPayment(LOAN_APPLICATIONS loan_application);
-int MakePaymentTransaction(LOAN_APPLICATIONS loan_application);
+int Loan_Transaction(LOAN_APPLICATIONS loan_application);
 
 #endif //TRANSACTIONS_H

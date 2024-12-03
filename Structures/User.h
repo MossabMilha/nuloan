@@ -3,7 +3,7 @@
 
 #include <time.h>
 
-typedef struct User {
+typedef struct {
     int user_id;
     char role[10];
     char first_name[50];
