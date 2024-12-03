@@ -1,0 +1,41 @@
+file(REMOVE_RECURSE
+  "CMakeFiles/nuloan_project.dir/Bank_information.c.obj"
+  "CMakeFiles/nuloan_project.dir/Bank_information.c.obj.d"
+  "CMakeFiles/nuloan_project.dir/Check_Bank_Information.c.obj"
+  "CMakeFiles/nuloan_project.dir/Check_Bank_Information.c.obj.d"
+  "CMakeFiles/nuloan_project.dir/Check_Signup_Information.c.obj"
+  "CMakeFiles/nuloan_project.dir/Check_Signup_Information.c.obj.d"
+  "CMakeFiles/nuloan_project.dir/Check_User_Information.c.obj"
+  "CMakeFiles/nuloan_project.dir/Check_User_Information.c.obj.d"
+  "CMakeFiles/nuloan_project.dir/Check_email.c.obj"
+  "CMakeFiles/nuloan_project.dir/Check_email.c.obj.d"
+  "CMakeFiles/nuloan_project.dir/Eligibility.c.obj"
+  "CMakeFiles/nuloan_project.dir/Eligibility.c.obj.d"
+  "CMakeFiles/nuloan_project.dir/LOAN_APPLICATIONS.c.obj"
+  "CMakeFiles/nuloan_project.dir/LOAN_APPLICATIONS.c.obj.d"
+  "CMakeFiles/nuloan_project.dir/LOAN_REPAYMENT_SCHEDULES.c.obj"
+  "CMakeFiles/nuloan_project.dir/LOAN_REPAYMENT_SCHEDULES.c.obj.d"
+  "CMakeFiles/nuloan_project.dir/LOAN_TERMS.c.obj"
+  "CMakeFiles/nuloan_project.dir/LOAN_TERMS.c.obj.d"
+  "CMakeFiles/nuloan_project.dir/Save_file.c.obj"
+  "CMakeFiles/nuloan_project.dir/Save_file.c.obj.d"
+  "CMakeFiles/nuloan_project.dir/Send_Email.c.obj"
+  "CMakeFiles/nuloan_project.dir/Send_Email.c.obj.d"
+  "CMakeFiles/nuloan_project.dir/SignUp.c.obj"
+  "CMakeFiles/nuloan_project.dir/SignUp.c.obj.d"
+  "CMakeFiles/nuloan_project.dir/Transactions.c.obj"
+  "CMakeFiles/nuloan_project.dir/Transactions.c.obj.d"
+  "CMakeFiles/nuloan_project.dir/hash_password.c.obj"
+  "CMakeFiles/nuloan_project.dir/hash_password.c.obj.d"
+  "CMakeFiles/nuloan_project.dir/main.c.obj"
+  "CMakeFiles/nuloan_project.dir/main.c.obj.d"
+  "libnuloan_project.dll.a"
+  "nuloan_project.exe"
+  "nuloan_project.exe.manifest"
+  "nuloan_project.pdb"
+)
+
+# Per-language clean rules from dependency scanning.
+foreach(lang C)
+  include(CMakeFiles/nuloan_project.dir/cmake_clean_${lang}.cmake OPTIONAL)
+endforeach()
