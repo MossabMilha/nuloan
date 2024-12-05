@@ -1,6 +1,6 @@
 CMakeFiles/nuloan_project.dir/Transactions.c.obj: \
  C:\Users\rachi\CLionProjects\nuloan\Transactions.c \
- C:\Users\rachi\CLionProjects\nuloan\Structures/Transactions.h \
+ C:\Users\rachi\CLionProjects\nuloan\Transactions.h \
  C:/msys64/mingw64/include/stdio.h \
  C:/msys64/mingw64/include/corecrt_stdio_config.h \
  C:/msys64/mingw64/include/corecrt.h C:/msys64/mingw64/include/_mingw.h \
@@ -26,8 +26,7 @@ CMakeFiles/nuloan_project.dir/Transactions.c.obj: \
  C:/msys64/mingw64/include/malloc.h \
  C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/14.2.0/include/mm_malloc.h \
  C:/msys64/mingw64/include/errno.h \
- C:/Users/rachi/CLionProjects/nuloan/Structures/LOAN_REPAYMENT_SCHEDULES.h \
- C:/Users/rachi/CLionProjects/nuloan/Structures/LOAN_APPLICATIONS.h \
- C:/Users/rachi/CLionProjects/nuloan/Structures/User.h \
- C:/Users/rachi/CLionProjects/nuloan/Structures/LOAN_TERMS.h \
- C:/Users/rachi/CLionProjects/nuloan/Structures/Eligibility.h
+ C:\Users\rachi\CLionProjects\nuloan\LOAN_REPAYMENT_SCHEDULES.h \
+ C:\Users\rachi\CLionProjects\nuloan\LOAN_APPLICATIONS.h \
+ C:\Users\rachi\CLionProjects\nuloan\LOAN_TERMS.h \
+ C:\Users\rachi\CLionProjects\nuloan\Eligibility.h

@@ -2,7 +2,7 @@
 // Created by rachi on 12/1/2024.
 //
 
-#include "Structures/LOAN_REPAYMENT_SCHEDULES.h"
+#include "LOAN_REPAYMENT_SCHEDULES.h"
 
 Eligibility ReadEligibilityFromFile(int loan_id) {
     Eligibility eligibility = {0};

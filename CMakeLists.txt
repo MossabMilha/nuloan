@@ -47,6 +47,11 @@ set(SOURCE_FILES
         LOAN_TERMS.c
         SignUp.c
         SignUp.h
+        LOAN_APPLICATIONS.h
+        LOAN_REPAYMENT_SCHEDULES.h
+        LOAN_TERMS.h
+        Transactions.h
+        Eligibility.h
 )
 
 # Add your executable and link it with GTK4, libgcrypt, CURL, and regex libraries

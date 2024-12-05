@@ -1,7 +1,7 @@
 //
 // Created by rachi on 11/23/2024.
 //
-#include "Structures/Eligibility.h"
+#include "Eligibility.h"
 
 
 

@@ -1,7 +1,7 @@
 //
 // Created by rachi on 12/2/2024.
 //
-#include "Structures/LOAN_APPLICATIONS.h"
+#include "LOAN_APPLICATIONS.h"
 
 void display_loan_types() {
     printf("Available Loan Types:\n");
@@ -38,7 +38,34 @@ LOAN_TERMS get_loan_terms_from_file(char loan_type[50]) {
     printf("Loan type not found.\n");
     exit(EXIT_FAILURE);
 }
-    void apply_for_loan(User user) {
+/* Objectif :
+Cette fonction permet à un utilisateur de faire une demande de prêt en fournissant certaines informations, en choisissant un type de prêt et en recevant un calcul détaillé des conditions de remboursement.
+Entrées :
+Utilisateur (argument) :
+
+Structure User passée en paramètre contenant les informations de l'utilisateur (ex. user_id).
+Données saisies par l'utilisateur :
+
+Revenu mensuel (income) : Saisi au clavier, un nombre décimal représentant le revenu mensuel de l'utilisateur.
+Montant demandé (amount_requested) : Saisi au clavier, un nombre décimal représentant le montant souhaité pour le prêt.
+Type de prêt : Saisi via un numéro correspondant à l'une des options affichées (1 à 12).
+Confirmation (y/n) : Lettre saisie pour confirmer ou annuler la demande.
+
+Affichage à l'écran :
+
+Liste des types de prêts disponibles.
+Détails du prêt calculés, notamment :
+Type de prêt choisi.
+Taux d'intérêt.
+Durée du prêt (en mois).
+Montant total à rembourser.
+Fichiers modifiés :
+
+Enregistrement de la demande dans un fichier binaire spécifique à l'utilisateur si elle est confirmée :
+Chemin du fichier :
+C:\\Users\\rachi\\CLionProjects\\nuloan\\DataBase\\LOAN_APPLICATIONS\\user_<user_id>.bin
+*/
+  void apply_for_loan(User user) {
         LOAN_APPLICATIONS loan_application = {0};
         loan_application.user_id = user.user_id;
 

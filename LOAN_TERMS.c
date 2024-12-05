@@ -1,7 +1,7 @@
 //
 // Created by rachi on 12/2/2024.
 //
-#include "Structures/LOAN_TERMS.h"
+#include "LOAN_TERMS.h"
 void initialize_loan_terms(LOAN_TERMS *terms, int id, const char *type, float min_amt, float max_amt,
                            int min_dur, int max_dur, float rate) {
     terms->loan_term_id = id;

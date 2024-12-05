@@ -1,6 +1,6 @@
 CMakeFiles/nuloan_project.dir/LOAN_REPAYMENT_SCHEDULES.c.obj: \
  C:\Users\rachi\CLionProjects\nuloan\LOAN_REPAYMENT_SCHEDULES.c \
- C:\Users\rachi\CLionProjects\nuloan\Structures/LOAN_REPAYMENT_SCHEDULES.h \
+ C:\Users\rachi\CLionProjects\nuloan\LOAN_REPAYMENT_SCHEDULES.h \
  C:/msys64/mingw64/include/stdio.h \
  C:/msys64/mingw64/include/corecrt_stdio_config.h \
  C:/msys64/mingw64/include/corecrt.h C:/msys64/mingw64/include/_mingw.h \
@@ -25,7 +25,6 @@ CMakeFiles/nuloan_project.dir/LOAN_REPAYMENT_SCHEDULES.c.obj: \
  C:/msys64/mingw64/include/sec_api/sys/timeb_s.h \
  C:/msys64/mingw64/include/_timeval.h \
  C:/msys64/mingw64/include/pthread_time.h \
- C:/Users/rachi/CLionProjects/nuloan/Structures/LOAN_APPLICATIONS.h \
- C:/Users/rachi/CLionProjects/nuloan/Structures/User.h \
- C:/Users/rachi/CLionProjects/nuloan/Structures/LOAN_TERMS.h \
- C:/Users/rachi/CLionProjects/nuloan/Structures/Eligibility.h
+ C:\Users\rachi\CLionProjects\nuloan\LOAN_APPLICATIONS.h \
+ C:\Users\rachi\CLionProjects\nuloan\LOAN_TERMS.h \
+ C:\Users\rachi\CLionProjects\nuloan\Eligibility.h

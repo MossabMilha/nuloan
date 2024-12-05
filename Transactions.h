@@ -1,5 +1,5 @@
 //
-// Created by rachi on 12/1/2024.
+// Created by rachi on 12/5/2024.
 //
 
 #ifndef TRANSACTIONS_H
@@ -8,7 +8,7 @@
 #include <string.h>
 #include <time.h>
 #include <stdlib.h>
-
+#include"LOAN_REPAYMENT_SCHEDULES.h"
 typedef struct TransactionPayment {
     int transaction_id;           // Identifiant unique pour la transaction (clé primaire)
     int loan_id;                  // Identifiant du prêt (clé étrangère)
@@ -21,5 +21,7 @@ typedef struct TransactionPayment {
     time_t updated_at;            // Date et heure de la dernière mise à jour
 } TransactionPayment;
 
-
+int LoanExistsWithStatus(LOAN_APPLICATIONS loan_application);
+float CalculateMonthlyPayment(LOAN_APPLICATIONS loan_application);
+int Loan_Transaction(LOAN_APPLICATIONS loan_application);
 #endif //TRANSACTIONS_H

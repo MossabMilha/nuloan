@@ -1,10 +1,13 @@
 //
-// Created by rachi on 12/2/2024.
+// Created by rachi on 12/5/2024.
 //
 
 #ifndef LOAN_TERMS_H
 #define LOAN_TERMS_H
-
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <string.h>
 
 // Définition de la structure LOAN_TERMS
 typedef struct {
@@ -17,5 +20,8 @@ typedef struct {
     float interest_rate;    // Taux d'intérêt
     time_t created_at;      // Date de création
 } LOAN_TERMS;
-
+void initialize_loan_terms(LOAN_TERMS *terms, int id, const char *type, float min_amt, float max_amt,
+                     int min_dur, int max_dur, float rate);
+void create_and_fill_binary_file();
+void read_binary_file();
 #endif //LOAN_TERMS_H

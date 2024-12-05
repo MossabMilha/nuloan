@@ -1,5 +1,5 @@
 //
-// Created by rachi on 12/1/2024.
+// Created by rachi on 12/5/2024.
 //
 
 #ifndef ELIGIBILITY_H
@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
-
+#include"LOAN_APPLICATIONS.h"
 
 typedef struct {
     int eligibility_id;          // ID de l'éligibilité (clé primaire)
@@ -23,6 +23,10 @@ typedef struct {
 } Eligibility;
 
 
+// Déclaration des fonctions
+void get_current_date(char *buffer, size_t size);
 
+int calculate_credit_score(User user, LOAN_APPLICATIONS loan_application);
 
+void generate_eligibility(User user, LOAN_TERMS loan_terms, LOAN_APPLICATIONS loan_application);
 #endif //ELIGIBILITY_H
