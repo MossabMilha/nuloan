@@ -6,6 +6,7 @@
 #include "Check_Bank_Information.h"
 #include "Structures/Bank_User_info.h"
 #include "Save_file.h"
+#include "First_Page.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -58,6 +59,7 @@ void Check_Bank_Information(GtkWidget *widget, gpointer user_data) {
         time(&new_bank_user_info.updated_at);
         if(Save_Signup_Information(new_user, new_bank_user_info)) {
             printf("the Bank Information is saved successfully\n");
+            First_Page_UI(NULL, Bank_Information);
         }
 
 

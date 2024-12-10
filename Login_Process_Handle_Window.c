@@ -33,23 +33,25 @@ void check_login(GtkWidget *widget, gpointer user_data) {
     }
     fread(&user, sizeof(User), 1, file);
     fclose(file);
+    g_object_set_data(G_OBJECT(main_window), "id", GINT_TO_POINTER(user.user_id));
     if (memcmp(user.password_hashed, hashed_password, 32) == 0) {
-
         printf("%s\n",user.role);
+        printf("%s\n",user.status);
         if(strcmp(user.role, "super admin") == 0) {
             printf("Welcome Super Admin\n");
-            Active_Member_Page(GTK_BUTTON(widget), user_data);
+            Admin_Page(GTK_WIDGET(main_window), user_data);
         } else if(strcmp(user.role, "admin") == 0) {
             printf("Welcome Admin \n");
-        } else if(strcmp(user.role, "user") == 0) {
+        } else if(strcmp(user.role, "User") == 0) {
+            printf("hello 1");
             if (strcmp(user.status , "Active") == 0) {
-                Active_Member_Page(GTK_BUTTON(widget), user_data);
+                printf("hello");
+                Active_Member_Page(GTK_WIDGET(widget), user_data);
             } else {
                 printf("User is not active\n");
             }
         }
     } else {
-        
         printf("Incorrect password\n");
     }
 

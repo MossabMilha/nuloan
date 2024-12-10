@@ -50,11 +50,7 @@ set(SOURCE_FILES
         Save_file.h
         Structures/User.h
         Structures/Bank_User_info.h
-        Structures/Roles.h
-        Structures/LOAN_APPLICATIONS.h
-        Structures/LOAN_REPAYMENT_SCHEDULES.h
-        Structures/LOAN_TRANSACTIONS.h
-        Structures/LOAN_HISTORY.h
+        Structures/Application.h
         Login_Process_Handle_Window.h
         Login_Process_Handle_Window.c
         Super_Admin.h
@@ -63,6 +59,23 @@ set(SOURCE_FILES
         Show_Users.h
         Active_Member.c
         Active_Member.h
+        Apply_Loan.c
+        Apply_Loan.h
+        Check_Loan_Status.c
+        Check_Loan_Status.h
+        First_Page.c
+        First_Page.h
+        Apply_Loan_More_Information.c
+        Apply_Loan_More_Information.h
+        Apply_Loan_fianl.c
+        Apply_Loan_fianl.h
+        Show_Loan_Application.c
+        Show_Loan_Application.h
+        Auto_Check_application.c
+        Auto_Check_application.h
+        Approve_Reject_Application.c
+        Approve_Reject_Application.h
+
 
 )
 

@@ -3,6 +3,7 @@
 #include <sys/stat.h>
 #include "Show_Users.h"
 #include "Structures/User.h"
+#include "Super_Admin.h"
 
 
 int count_files_in_directory(const char *directory_path) {
@@ -33,8 +34,6 @@ User Read_User_Information(int id) {
     FILE *file = fopen(filename, "rb");
     User user;
     fread(&user, sizeof(User), 1, file);
-    printf("---%s\n", user.first_name);
-    printf("---%s\n", user.last_name);
     fclose(file);
     return user;
 }
@@ -54,13 +53,8 @@ void Next_Page(GtkWidget *widget, gpointer data) {
     g_object_set_data(G_OBJECT(data), "Page", GINT_TO_POINTER(page));
     Check_User(widget, data);
 }
-void more(User user) {
-    printf("User ID: %d\n", user.user_id);
-}
-void more_wrapper(GtkWidget *button, gpointer data) {
-    User *user = (User *)data;
-    more(*user); // Call your original `more` function with the parameter
-}
+
+
 
 void Create_User_Frame(GtkWidget *parent, const User user, const int x, const int y) {
     GtkWidget *frame = gtk_frame_new("======================");
@@ -100,7 +94,7 @@ void Create_User_Frame(GtkWidget *parent, const User user, const int x, const in
     gtk_label_set_xalign(GTK_LABEL(user_first_name), 0);
 
     GtkWidget *user_last_name = gtk_label_new("");
-    printf("%s\n", user.last_name);
+
     char last_name_text[100];
     sprintf(last_name_text, "<span font='8' weight='bold' foreground='#000000'>  Last Name : %s</span>", user.last_name);
     gtk_label_set_markup(GTK_LABEL(user_last_name), last_name_text);
@@ -115,7 +109,7 @@ void Create_User_Frame(GtkWidget *parent, const User user, const int x, const in
     GtkWidget *more_button = gtk_button_new_with_label("More");
     User *user_ptr = malloc(sizeof(User));
     *user_ptr = user;
-    g_signal_connect(more_button, "clicked", G_CALLBACK(more_wrapper), user_ptr);
+    // g_signal_connect(more_button, "clicked", G_CALLBACK(more_wrapper), user_ptr);
 
     GtkWidget *edit_button = gtk_button_new_with_label("Edit");
 
@@ -137,9 +131,17 @@ void Create_User_Frame(GtkWidget *parent, const User user, const int x, const in
 
 void Check_User(GtkWidget *widget, gpointer data) {
     int page = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(data), "Page"));
-    GtkWidget *Admin_Page = GTK_WIDGET(data);
-    GtkWidget *Admin_Page_Fix = g_object_get_data(G_OBJECT(Admin_Page), "Admin_Page_Fix");
-    GtkWidget *Admin_OutPut_Fix = g_object_get_data(G_OBJECT(Admin_Page), "Admin_OutPut_Fix");
+    GtkWidget *Admin_Page_1 = GTK_WIDGET(data);
+    GtkWidget *Admin_Page_Fix = g_object_get_data(G_OBJECT(Admin_Page_1), "Admin_Page_Fix");
+    GtkWidget *Admin_OutPut_Fix = g_object_get_data(G_OBJECT(Admin_Page_1), "Admin_OutPut_Fix");
+
+    GtkWidget *Exit = gtk_button_new_with_label("Exit");
+    gtk_fixed_put(GTK_FIXED(Admin_Page_Fix), Exit, 75, 400);
+    gtk_widget_set_size_request(Exit, 250, 20);
+    gtk_widget_set_visible(Exit, TRUE);
+    g_signal_connect(Exit, "clicked", G_CALLBACK(Admin_Page),  data);
+
+
 
     // Clear previous content
     GtkWidget *child = gtk_widget_get_first_child(GTK_WIDGET(Admin_OutPut_Fix));
@@ -153,6 +155,8 @@ void Check_User(GtkWidget *widget, gpointer data) {
     GtkWidget *Title = gtk_label_new("User_Information");
     gtk_label_set_markup(GTK_LABEL(Title), "<span font='20' weight='bold' foreground='#000000'>User Information</span>");
     gtk_fixed_put(GTK_FIXED(Admin_OutPut_Fix), Title, 40, 50);
+
+
 
     // Create fixed layout for users
     GtkWidget *grid = gtk_grid_new();
@@ -174,11 +178,11 @@ void Check_User(GtkWidget *widget, gpointer data) {
     // Create navigation buttons
     GtkWidget *prev_button = gtk_button_new_with_label("Previous");
     gtk_fixed_put(GTK_FIXED(Admin_OutPut_Fix), prev_button, 0, 600);
-    g_signal_connect(prev_button, "clicked", G_CALLBACK(Prev_Page), Admin_Page);
+    g_signal_connect(prev_button, "clicked", G_CALLBACK(Prev_Page), Admin_Page_1);
 
     GtkWidget *next_button = gtk_button_new_with_label("Next");
     gtk_fixed_put(GTK_FIXED(Admin_OutPut_Fix), next_button, 1300, 600);
-    g_signal_connect(next_button, "clicked", G_CALLBACK(Next_Page), Admin_Page);
+    g_signal_connect(next_button, "clicked", G_CALLBACK(Next_Page), Admin_Page_1);
 
     // Show or hide buttons based on the page number
     if (page == 1) {
@@ -186,7 +190,7 @@ void Check_User(GtkWidget *widget, gpointer data) {
     } else {
         gtk_widget_set_visible(prev_button, TRUE);
     }
-    int total_files = count_files_in_directory("..\\Users");
+    int total_files = count_files_in_directory("..\\DataBase\\Users");
     int total_pages = (total_files + 9) / 10; // Calculate total pages needed
 
     if (page >= total_pages) {

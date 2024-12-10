@@ -37,7 +37,7 @@ void Check(GtkWidget *button, gpointer user_data) {
     GtkWidget *Code = g_object_get_data(G_OBJECT(new_window), "Code");
     const gchar *Code_Text = gtk_editable_get_text(GTK_EDITABLE(Code));
 
-
+        
     if (atoi(Code_Text) == code_2FA) {
         FILE *number_of_users = fopen("..\\DataBase\\Number_Of_Users.txt", "rt");
         int number_of_users_int;

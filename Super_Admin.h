@@ -4,5 +4,5 @@
 
 #ifndef SUPER_ADMIN_H
 #define SUPER_ADMIN_H
-void Admin_Page(GtkButton *button, gpointer user_data);
+void Admin_Page(GtkWidget *widget, gpointer user_data);
 #endif //SUPER_ADMIN_H

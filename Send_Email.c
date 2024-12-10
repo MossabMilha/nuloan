@@ -3,7 +3,7 @@
 #include <string.h>
 #include <curl/curl.h>
 
-#define ACCESS_TOKEN "ya29.a0AeDClZBGH3Na_YSL_J51PRp-MZY5o8IwS-O6U_hw6PhkcdXyMXZVjxw-UFIZOzQwmHWV7u4D9HEZlSON79DlKK3pLyRJcSM5sVdRn0IEFc0-FE6mOCUH-zhHRhS2vbNQiFkaFp6lHAtdflazazcK_DXqxJP8skN_AiTX4ZDTaCgYKAckSARMSFQHGX2MipmwRKO9Wlz73YjkrmWwE2g0175"
+#define ACCESS_TOKEN "ya29.a0AeDClZB5jBT50jfDa9UBR38Ph68H4ukWLgkNgu5ZdaDZdzQwv9meEc_n-wMBW_eBCl0ab2OQ7nAaGMdAcU_u_qaMahRp_rVr5LxjFD5NyFbJ6GduNaPpD05ShKJYLwhwKZhHsv2i7lO4bwLQ7wK7UU7MS6VX401i8gI38o0OaCgYKASgSARMSFQHGX2MihMPKom_yFkfTmtKMomMXHA0175"
 
 // Base64 encoding function for email data
 void base64_encode(const char *input, char *output, int length) {

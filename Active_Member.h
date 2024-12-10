@@ -6,5 +6,5 @@
 #define ACTIVE_MEMBER_H
 #include <gtk/gtk.h>
 
-void Active_Member_Page(GtkButton *button, gpointer user_data) ;
+void Active_Member_Page(GtkWidget *widget, gpointer user_data) ;
 #endif //ACTIVE_MEMBER_H
