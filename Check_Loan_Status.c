@@ -31,6 +31,7 @@ Application Read_Application_Information(int id, int struct_number) {
     return user;
 }
 
+
 // Reads loan information from the file
 loan_type Read_loan_Information(int id) {
     char filename[100];
