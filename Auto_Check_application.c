@@ -1,14 +1,14 @@
-//
-// Created by PC on 08-Dec-24.
-//
-
+// Updated code to log the specific file that fails to open
 #include "Auto_Check_application.h"
+#include <errno.h>
+
 int count_files_in_directory_2(const char *directory_path) {
     int file_count = 0;
     struct dirent *entry;
     DIR *dp = opendir(directory_path);
 
     if (dp == NULL) {
+        perror("Failed to open directory");
         return 0;
     }
 
@@ -16,8 +16,7 @@ int count_files_in_directory_2(const char *directory_path) {
         struct stat path_stat;
         char full_path[1024];
         snprintf(full_path, sizeof(full_path), "%s/%s", directory_path, entry->d_name);
-        stat(full_path, &path_stat);
-        if (S_ISREG(path_stat.st_mode)) {
+        if (stat(full_path, &path_stat) == 0 && S_ISREG(path_stat.st_mode)) {
             file_count++;
         }
     }
@@ -25,24 +24,20 @@ int count_files_in_directory_2(const char *directory_path) {
     closedir(dp);
     return file_count;
 }
+
 void update_application_status(const char *file_name, int target_id, const char *new_status) {
     FILE *file = fopen(file_name, "rb+");
     if (!file) {
-        perror("Error opening file");
+        fprintf(stderr, "Error opening file '%s': %s\n", file_name, strerror(errno));
         return;
     }
 
     Application app;
     while (fread(&app, sizeof(Application), 1, file) == 1) {
         if (app.loan_application_id == target_id) {
-            // Update the application status
             strncpy(app.application_status, new_status, sizeof(app.application_status) - 1);
             app.application_status[sizeof(app.application_status) - 1] = '\0';
-
-            // Update the timestamp
             app.updated_at = time(NULL);
-
-            // Move the file pointer back to overwrite the structure
             fseek(file, -(long)sizeof(Application), SEEK_CUR);
             fwrite(&app, sizeof(Application), 1, file);
             fclose(file);
@@ -52,31 +47,27 @@ void update_application_status(const char *file_name, int target_id, const char 
 
     fclose(file);
 }
+
 void delete_id_from_file(const char *file_name, int id_to_delete) {
-    // Open the file in read mode
     FILE *file = fopen(file_name, "r");
     if (!file) {
-        perror("Error opening file");
+        fprintf(stderr, "Error opening file '%s': %s\n", file_name, strerror(errno));
         return;
     }
 
-    // Read all IDs into memory
-    int ids[1000];  // Assuming there will be no more than 1000 IDs
+    int ids[1000];
     int count = 0;
-
     while (fscanf(file, "%d", &ids[count]) == 1) {
         count++;
     }
     fclose(file);
 
-    // Open the file in write mode to overwrite the content
     file = fopen(file_name, "w");
     if (!file) {
-        perror("Error opening file for writing");
+        fprintf(stderr, "Error opening file '%s' for writing: %s\n", file_name, strerror(errno));
         return;
     }
 
-    // Write back all IDs except the one to delete
     for (int i = 0; i < count; i++) {
         if (ids[i] != id_to_delete) {
             fprintf(file, "%d\n", ids[i]);
@@ -86,15 +77,15 @@ void delete_id_from_file(const char *file_name, int id_to_delete) {
     fclose(file);
 }
 
-void Auto_Check_app(){
-  printf("Auto_Check_app\n");
+void Auto_Check_app() {
+    printf("Auto_Check_app\n");
     sir_ltema:
         int max = count_files_in_directory_2("..\\DataBase\\Application_Not_Checked");
-    for(int i = 1; i <= max; i++){
+    for (int i = 1; i <= max; i++) {
         FILE *id_file = fopen("..\\DataBase\\Id_Of_applications.txt", "r");
         if (id_file == NULL) {
-            perror("Failed to open ID file");
-            return; // Return an empty Loan_Apply struct
+            fprintf(stderr, "Failed to open ID file: %s\n", strerror(errno));
+            return;
         }
 
         int id;
@@ -109,16 +100,15 @@ void Auto_Check_app(){
 
         if (current_line != i - 1) {
             fprintf(stderr, "Line number %d not found in ID file\n", i);
-            return; // Return an empty Loan_Apply struct
+            return;
         }
 
         char bin_file_path[256];
-
         snprintf(bin_file_path, sizeof(bin_file_path), "..\\DataBase\\Application_Not_Checked\\application_%d.bin", id);
         FILE *bin_file = fopen(bin_file_path, "rb");
         if (bin_file == NULL) {
-            perror("Failed to open binary file");
-            return; // Return an empty Loan_Apply struct
+            fprintf(stderr, "Failed to open binary file '%s': %s\n", bin_file_path, strerror(errno));
+            return;
         }
 
         Application loan_apply;
@@ -129,15 +119,16 @@ void Auto_Check_app(){
         snprintf(loan_path, sizeof(loan_path), "..\\DataBase\\LOANS\\loan_%d.bin", loan_apply.loan_id);
         FILE *loan_file = fopen(loan_path, "rb");
         if (loan_file == NULL) {
-            perror("Failed to open binary file");
-            return; // Return an empty Loan_Apply struct
+            fprintf(stderr, "Failed to open loan file '%s': %s\n", loan_path, strerror(errno));
+            return;
         }
+
         loan_type loan;
         fread(&loan, sizeof(loan), 1, loan_file);
         fclose(loan_file);
-        printf("%f\n",loan_apply.amount_requested);
-        printf("%f\n====\n",loan.min_amount);
-        if (!((loan_apply.amount_requested >= loan.min_amount && loan_apply.amount_requested <= loan.max_amount) && (loan_apply.loan_duration >= loan.min_duration && loan_apply.loan_duration <= loan.max_duration))) {
+
+        if (!((loan_apply.amount_requested >= loan.min_amount && loan_apply.amount_requested <= loan.max_amount) &&
+              (loan_apply.loan_duration >= loan.min_duration && loan_apply.loan_duration <= loan.max_duration))) {
             char file_name[256];
             snprintf(file_name, sizeof(file_name), "..\\DataBase\\Applications\\user_%d.bin", loan_apply.user_id);
             update_application_status(file_name, loan_apply.loan_application_id, "Declined");
@@ -146,12 +137,11 @@ void Auto_Check_app(){
 
             snprintf(file_name, sizeof(file_name), "..\\DataBase\\Application_Not_Checked\\application_%d.bin", loan_apply.loan_application_id);
             if (remove(file_name) == 0) {
-                goto sir_ltema;
                 printf("File '%s' deleted successfully.\n", file_name);
+                goto sir_ltema;
             } else {
-                perror("Error deleting file");
+                fprintf(stderr, "Error deleting file '%s': %s\n", file_name, strerror(errno));
             }
         }
     }
-
-};
+}

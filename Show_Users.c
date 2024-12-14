@@ -54,27 +54,80 @@ void Next_Page(GtkWidget *widget, gpointer data) {
     Check_User(widget, data);
 }
 
+void update_user_status(int user_id, const char *new_status) {
+    char filename[100];
+    sprintf(filename, "..\\DataBase\\Users\\user_%d.bin", user_id);
 
+    FILE *file = fopen(filename, "rb+");
+    if (file == NULL) {
+        fprintf(stderr, "Error: Could not open file for user ID %d.\n", user_id);
+        return;
+    }
 
+    User user;
+    if (fread(&user, sizeof(User), 1, file) != 1) {
+        fprintf(stderr, "Error: Could not read user data for user ID %d.\n", user_id);
+        fclose(file);
+        return;
+    }
+
+    // Update the status
+    strncpy(user.status, new_status, sizeof(user.status) - 1);
+    user.status[sizeof(user.status) - 1] = '\0';
+    user.updated_at = time(NULL); // Update the modification timestamp
+
+    // Write the updated data back to the file
+    fseek(file, 0, SEEK_SET);
+    if (fwrite(&user, sizeof(User), 1, file) != 1) {
+        fprintf(stderr, "Error: Could not write updated user data for user ID %d.\n", user_id);
+    }
+
+    fclose(file);
+}
+
+void deactivate_account(GtkButton *button, gpointer user_data) {
+    int id = GPOINTER_TO_INT(user_data);
+    update_user_status(id, "inactive");
+    gtk_button_set_label(button, "Done");
+    g_signal_handlers_disconnect_by_func(button, deactivate_account, user_data);
+
+}
+
+void activate_account(GtkButton *button, gpointer user_data) {
+    int id = GPOINTER_TO_INT(user_data);
+    update_user_status(id, "Active");
+    gtk_button_set_label(button, "Done");
+    g_signal_handlers_disconnect_by_func(button, activate_account, user_data);
+}
 void Create_User_Frame(GtkWidget *parent, const User user, const int x, const int y) {
     GtkWidget *frame = gtk_frame_new("======================");
     gtk_widget_set_size_request(frame, 25, 25);
 
     // Create an image widget for the role picture
     GtkWidget *role_image;
+    GtkWidget *edit_button = gtk_button_new_with_label("");
     if (strcmp(user.role, "super admin") == 0) {
         role_image = gtk_image_new_from_file("..\\images\\Super_Admin.png");
         gtk_widget_set_tooltip_text(role_image, "Super_Admin");
+        gtk_widget_set_visible(edit_button, FALSE);
     } else if (strcmp(user.role, "admin") == 0) {
         role_image = gtk_image_new_from_file("..\\images\\Admin.png");
         gtk_widget_set_tooltip_text(role_image, "Admin");
+        gtk_widget_set_visible(edit_button, FALSE);
     } else {
-        if (strcmp(user.status, "active") == 0) {
+        if (strcmp(user.status, "Active") == 0) {
             role_image = gtk_image_new_from_file("..\\images\\active_account.png");
             gtk_widget_set_tooltip_text(role_image, "Active Member");
+            gtk_button_set_label(GTK_BUTTON(edit_button), "Deactivate");
+            g_signal_connect(edit_button, "clicked", G_CALLBACK(deactivate_account), GINT_TO_POINTER(user.user_id));
+
         } else {
             role_image = gtk_image_new_from_file("..\\images\\innactive.png");
             gtk_widget_set_tooltip_text(role_image, "Inactive Member");
+            gtk_button_set_label(GTK_BUTTON(edit_button), "Activate");
+
+            g_signal_connect(edit_button, "clicked", G_CALLBACK(activate_account), GINT_TO_POINTER(user.user_id));
+
         }
     }
     gtk_widget_set_size_request(role_image, 20, 20); // Enforce image size
@@ -107,11 +160,8 @@ void Create_User_Frame(GtkWidget *parent, const User user, const int x, const in
     gtk_label_set_xalign(GTK_LABEL(user_email), 0);
 
     GtkWidget *more_button = gtk_button_new_with_label("More");
-    User *user_ptr = malloc(sizeof(User));
-    *user_ptr = user;
     // g_signal_connect(more_button, "clicked", G_CALLBACK(more_wrapper), user_ptr);
 
-    GtkWidget *edit_button = gtk_button_new_with_label("Edit");
 
     // Create a vertical box to hold all widgets
     GtkWidget *frame_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
@@ -127,6 +177,7 @@ void Create_User_Frame(GtkWidget *parent, const User user, const int x, const in
     gtk_frame_set_child(GTK_FRAME(frame), frame_box);
     gtk_fixed_put(GTK_FIXED(parent), frame, x, y);
 }
+
 
 
 void Check_User(GtkWidget *widget, gpointer data) {
@@ -167,7 +218,7 @@ void Check_User(GtkWidget *widget, gpointer data) {
      }else {
          max = 10;
      }
-    printf("%d\n",max);
+
     for (int i = 0; i < max; i++) {
         User user = Read_User_Information(i + 1 + (page - 1) * 10);
         int x = (i % 5) * 290 ;

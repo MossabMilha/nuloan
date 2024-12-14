@@ -16,6 +16,7 @@
 #include "Structures/User.h"
 #include "Structures/Loans_Types.h"
 #include "Approve_Reject_Application.h"
+#include "Super_Admin.h"
 
 int count_files_in_directory_1(const char *directory_path) {
     int file_count = 0;
@@ -109,6 +110,21 @@ loan_type Read_Loan(int id) {
     fclose(bin_file);
     return loan;
 }
+void Prev_Page_1(GtkWidget *widget, gpointer data) {
+    int page = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(data), "Page"));
+    if (page > 1) {
+        page--;
+        g_object_set_data(G_OBJECT(data), "Page", GINT_TO_POINTER(page));
+        Check_Applications(widget, data);
+    }
+}
+void Next_Page_1(GtkWidget *widget, gpointer data) {
+    int page = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(data), "Page"));
+    page++;
+    g_object_set_data(G_OBJECT(data), "Page", GINT_TO_POINTER(page));
+    Check_Applications(widget, data);
+}
+
 
 void Create_loan_application_Frame(GtkWidget *parent, const Application loan, const int x, const int y) {
     loan_type loan_type = Read_Loan(loan.loan_id);
@@ -159,6 +175,12 @@ void Check_Applications(GtkWidget *widget, gpointer data) {
     GtkWidget *Admin_Page_Fix = g_object_get_data(G_OBJECT(Admin_Page_1), "Admin_Page_Fix");
     GtkWidget *Admin_OutPut_Fix = g_object_get_data(G_OBJECT(Admin_Page_1), "Admin_OutPut_Fix");
 
+    GtkWidget *Exit = gtk_button_new_with_label("Exit");
+    gtk_fixed_put(GTK_FIXED(Admin_Page_Fix), Exit, 75, 400);
+    gtk_widget_set_size_request(Exit, 250, 20);
+    gtk_widget_set_visible(Exit, TRUE);
+    g_signal_connect(Exit, "clicked", G_CALLBACK(Admin_Page),  data);
+
     // Clear previous content
     GtkWidget *child = gtk_widget_get_first_child(GTK_WIDGET(Admin_OutPut_Fix));
     while (child != NULL) {
@@ -176,9 +198,8 @@ void Check_Applications(GtkWidget *widget, gpointer data) {
     GtkWidget *grid = gtk_grid_new();
     gtk_fixed_put(GTK_FIXED(Admin_OutPut_Fix), grid, 10, 100);
     int max = 1;
-    int total_files = count_files_in_directory_1("..\\DataBase\\Application_Not_Checked");
-    if (page * 10 > total_files) {
-        max = total_files % 10;
+    if (page * 10 > count_files_in_directory_1("..\\DataBase\\Application_Not_Checked")) {
+        max = count_files_in_directory_1("..\\DataBase\\Application_Not_Checked") % 10;
     } else {
         max = 10;
     }
@@ -193,11 +214,11 @@ void Check_Applications(GtkWidget *widget, gpointer data) {
     // Create navigation buttons
     GtkWidget *prev_button = gtk_button_new_with_label("Previous");
     gtk_fixed_put(GTK_FIXED(Admin_OutPut_Fix), prev_button, 0, 600);
-    // g_signal_connect(prev_button, "clicked", G_CALLBACK(Prev_Page), Admin_Page_1);
+    g_signal_connect(prev_button, "clicked", G_CALLBACK(Prev_Page_1), Admin_Page_1);
 
     GtkWidget *next_button = gtk_button_new_with_label("Next");
     gtk_fixed_put(GTK_FIXED(Admin_OutPut_Fix), next_button, 1300, 600);
-    // g_signal_connect(next_button, "clicked", G_CALLBACK(Next_Page), Admin_Page_1);
+    g_signal_connect(next_button, "clicked", G_CALLBACK(Next_Page_1), Admin_Page_1);
 
     // Show or hide buttons based on the page number
     if (page == 1) {
@@ -205,8 +226,9 @@ void Check_Applications(GtkWidget *widget, gpointer data) {
     } else {
         gtk_widget_set_visible(prev_button, TRUE);
     }
-
+    int total_files = count_files_in_directory_1("..\\DataBase\\Application_Not_Checked");
     int total_pages = (total_files + 9) / 10; // Calculate total pages needed
+
     if (page >= total_pages) {
         gtk_widget_set_visible(next_button, FALSE);
     } else {

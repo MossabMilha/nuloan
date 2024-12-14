@@ -2,7 +2,7 @@
 #include <gtk/gtk.h>
 #include "SignUp.h"
 #include "Check_Signup_Information.h"
-
+#include "First_Page.h"
 void Sign_Up_UI(GtkButton *button, gpointer user_data) {
     GtkWidget *main_window = GTK_WIDGET(user_data);
 
@@ -139,8 +139,12 @@ void Sign_Up_UI(GtkButton *button, gpointer user_data) {
     GtkWidget *Submit = gtk_button_new_with_label("Submit");
     gtk_fixed_put(GTK_FIXED(signup_fix), Submit, 50, 380);
     gtk_widget_set_size_request(Submit, 250, 20);
-
     g_signal_connect(Submit, "clicked", G_CALLBACK(check_SignUp), signup_window);
+
+    GtkWidget *Back = gtk_button_new_with_label("Back");
+    gtk_fixed_put(GTK_FIXED(signup_fix), Back, 50, 420);
+    gtk_widget_set_size_request(Back, 250, 20);
+    g_signal_connect(Back, "clicked", G_CALLBACK(First_Page_UI), signup_window);
 
     // Set the fixed layout as the child of the signup window
     gtk_window_set_child(GTK_WINDOW(signup_window), signup_fix);

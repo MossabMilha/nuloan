@@ -75,7 +75,10 @@ set(SOURCE_FILES
         Auto_Check_application.h
         Approve_Reject_Application.c
         Approve_Reject_Application.h
-
+        Check_Loan_Status_more.c
+        Check_Loan_Status_more.h
+        Forget_Password.c
+        Forget_Password.c
 
 )
 

@@ -1,122 +1,270 @@
-//
-// Created by PC on 09-Dec-24.
-//
-
 #include "Approve_Reject_Application.h"
 #include "Structures/User.h"
 #include "Structures/Application.h"
 #include "Structures/Loans_Types.h"
+#include <gtk/gtk.h>
+#include <stdio.h>
+#include <time.h>
+#include <string.h>
+
 User user;
 Application loan_application;
 loan_type loan;
 int loan_application_id;
+float chosen_interest_rate;
+
 float suggest_interest_rate(int score, loan_type loan) {
-    // Higher scores get lower interest rates within the loan's range
     float interest_rate;
     if (score > 750) {
-        interest_rate = loan.interest_rate[0]; // Best rate for excellent credit
+        interest_rate = loan.interest_rate[0];
     } else if (score > 650) {
-        interest_rate = (loan.interest_rate[0] + loan.interest_rate[1]) / 2; // Mid-point rate for good credit
+        interest_rate = (loan.interest_rate[0] + loan.interest_rate[1]) / 2;
     } else {
-        interest_rate = loan.interest_rate[1]; // Highest rate for fair credit
+        interest_rate = loan.interest_rate[1];
     }
     return interest_rate;
 }
 
 int calculate_credit_score(User user, Application loan_application, loan_type loan) {
-    int score = 300; // Initial minimum score
+    int score = 300;
+    time_t current_time = time(NULL);
 
-    // Criterion 1: Loan Duration vs Loan Type
     if (loan_application.loan_duration >= loan.min_duration && loan_application.loan_duration <= loan.max_duration) {
-        score += 30; // Duration aligns with loan type requirements
+        score += 30;
     } else {
-        score -= 30; // Duration mismatch (assuming this case is possible within bounds)
+        score -= 30;
     }
 
-    // Criterion 2: User Account Age
-    time_t current_time = time(NULL);
     double account_age_years = difftime(current_time, user.created_at) / (365.0 * 24.0 * 60.0 * 60.0);
     if (account_age_years > 5) {
-        score += 100; // Long account tenure indicates reliability
+        score += 100;
     } else if (account_age_years > 2) {
-        score += 50; // Moderate account tenure
+        score += 50;
     } else {
-        score -= 20; // Recent account, less reliability
+        score -= 20;
     }
 
-    // Criterion 3: User Status
     if (strcmp(user.status, "active") == 0) {
-        score += 50; // Active status indicates engagement and reliability
+        score += 50;
     } else {
-        score -= 50; // Inactive or unknown status
+        score -= 50;
     }
 
-    // Criterion 4: Application Status
     if (strcmp(loan_application.application_status, "Approved") == 0) {
-        score += 30; // Bonus for previously approved applications
+        score += 30;
     } else if (strcmp(loan_application.application_status, "Declined") == 0) {
-        score -= 50; // Penalty for declined applications
+        score -= 50;
     } else if (strcmp(loan_application.application_status, "In Progress") == 0) {
-        score += 10; // Small bonus for active applications
+        score += 10;
     }
 
-    // Criterion 5: Timeliness of Repayment Start Date
     if (difftime(current_time, loan_application.repayment_start_date) < 0) {
-        score += 10; // Future repayment start indicates planning
+        score += 10;
     } else {
-        score -= 20; // Late or already started repayment indicates risk
+        score -= 20;
     }
 
-    // Cap the score between 300 and 850
     if (score > 850) {
         score = 850;
     } else if (score < 300) {
         score = 300;
     }
 
-    // Suggest interest rate based on score
-
     return score;
 }
+
 Application Read_application(int id) {
     char bin_file_path[256];
     snprintf(bin_file_path, sizeof(bin_file_path), "..\\DataBase\\Application_Not_Checked\\application_%d.bin", id);
     FILE *bin_file = fopen(bin_file_path, "rb");
     if (bin_file == NULL) {
         perror("Failed to open binary file");
-        return (Application){0}; // Return an empty User struct
+        return (Application){0};
     }
     Application app;
     fread(&app, sizeof(app), 1, bin_file);
     fclose(bin_file);
     return app;
 }
+
 User Read_User_1(int id) {
     char bin_file_path[256];
     snprintf(bin_file_path, sizeof(bin_file_path), "..\\DataBase\\Users\\user_%d.bin", id);
     FILE *bin_file = fopen(bin_file_path, "rb");
     if (bin_file == NULL) {
         perror("Failed to open binary file");
-        return (User){0}; // Return an empty User struct
+        return (User){0};
     }
     User user;
     fread(&user, sizeof(user), 1, bin_file);
     fclose(bin_file);
     return user;
 }
+
 loan_type Read_Loan_1(int id) {
     char bin_file_path[256];
     snprintf(bin_file_path, sizeof(bin_file_path), "..\\DataBase\\LOANS\\loan_%d.bin", id);
     FILE *bin_file = fopen(bin_file_path, "rb");
     if (bin_file == NULL) {
         perror("Failed to open binary file");
-        return (loan_type){0}; // Return an empty User struct
+        return (loan_type){0};
     }
     loan_type loan;
     fread(&loan, sizeof(loan), 1, bin_file);
     fclose(bin_file);
     return loan;
 }
+
+void Approve_Application(GtkWidget *window) {
+    printf("\nHello\n");
+    Application updated_application = loan_application;
+    strcpy(updated_application.application_status, "Approved");
+    updated_application.interest_rate = chosen_interest_rate;
+
+    struct tm *tm_info;
+    time_t current_time = time(NULL);
+    tm_info = localtime(&current_time);
+    if (tm_info->tm_mday > 10) {
+        tm_info->tm_mon += 2;
+    } else {
+        tm_info->tm_mon += 1;
+    }
+    tm_info->tm_mday = 1;
+    updated_application.repayment_start_date = mktime(tm_info);
+    updated_application.total_repayment = updated_application.amount_requested * (1 + chosen_interest_rate / 100);
+    updated_application.updated_at = current_time;
+
+    char user_bin_file_path[256];
+    snprintf(user_bin_file_path, sizeof(user_bin_file_path), "..\\DataBase\\Applications\\user_%d.bin", updated_application.user_id);
+
+    FILE *user_bin_file = fopen(user_bin_file_path, "rb+");
+    if (user_bin_file == NULL) {
+        perror("Failed to open binary file");
+        return;
+    }
+
+    Application temp_application;
+    while (fread(&temp_application, sizeof(Application), 1, user_bin_file) == 1) {
+        if (temp_application.loan_application_id == updated_application.loan_application_id) {
+            fseek(user_bin_file, -sizeof(Application), SEEK_CUR);
+            fwrite(&updated_application, sizeof(Application), 1, user_bin_file);
+            fclose(user_bin_file);
+            printf("Loan application approved and updated successfully.\n");
+        }
+    }
+
+    char application_path[256];
+    snprintf(application_path, sizeof(application_path), "..\\DataBase\\Application_Not_Checked\\application_%d.bin", updated_application.loan_application_id);
+    printf("%s\n", application_path);
+    if (remove(application_path) == 0) {
+        printf("Application removed from the not checked folder\n");
+    }
+
+    // Now we will remove the ID from the Id_Of_applications.txt
+    char id_path[256];
+    snprintf(id_path, sizeof(id_path), "..\\DataBase\\Id_Of_applications.txt");
+
+    // Open the Id_Of_applications.txt file for reading
+    FILE *id_file = fopen(id_path, "r");
+    if (id_file == NULL) {
+        perror("Failed to open ID file");
+        return;
+    }
+
+    // Temporary file to store the new contents without the deleted ID
+    FILE *temp_file = fopen("temp.txt", "w");
+    if (temp_file == NULL) {
+        perror("Failed to open temporary file");
+        fclose(id_file);
+        return;
+    }
+
+    int id;
+    while (fscanf(id_file, "%d", &id) == 1) {
+        if (id != updated_application.loan_application_id) {
+            fprintf(temp_file, "%d\n", id);  // Write ID to temp file if it doesn't match
+        }
+    }
+
+    fclose(id_file);
+    fclose(temp_file);
+
+    // Replace the original file with the temporary file
+    if (remove(id_path) != 0) {
+        perror("Failed to remove the original ID file");
+    } else {
+        if (rename("temp.txt", id_path) != 0) {
+            perror("Failed to rename temporary file");
+        } else {
+            printf("ID successfully deleted from the file.\n");
+        }
+    }
+
+    // Close the user file and finish
+    fclose(user_bin_file);
+}
+void Reject_Application(GtkWidget *window) {
+    Application updated_application = loan_application;
+    strcpy(updated_application.application_status, "Rejected");
+    updated_application.updated_at = time(NULL);
+
+    char user_bin_file_path[256];
+    snprintf(user_bin_file_path, sizeof(user_bin_file_path), "..\\DataBase\\Applications\\user_%d.bin", updated_application.user_id);
+
+    FILE *user_bin_file = fopen(user_bin_file_path, "rb+");
+    if (user_bin_file == NULL) {
+        perror("Failed to open binary file");
+        return;
+    }
+
+    Application temp_application;
+    while (fread(&temp_application, sizeof(Application), 1, user_bin_file) == 1) {
+        if (temp_application.loan_application_id == updated_application.loan_application_id) {
+            fseek(user_bin_file, -sizeof(Application), SEEK_CUR);
+            fwrite(&updated_application, sizeof(Application), 1, user_bin_file);
+            fclose(user_bin_file);
+            printf("Loan application rejected and updated successfully.\n");
+        }
+    }
+
+    char application_path[256];
+    snprintf(application_path, sizeof(application_path), "..\\DataBase\\Application_Not_Checked\\application_%d.bin", updated_application.loan_application_id);
+    printf("%s\n", application_path);
+    if (remove(application_path) == 0) {
+        printf("Application removed from the not checked folder\n");
+    }
+
+    // Now we will remove the ID from the Id_Of_applications.txt
+    char id_path[256];
+    snprintf(id_path, sizeof(id_path), "..\\DataBase\\Id_Of_applications.txt");
+
+    // Open the Id_Of_applications.txt file for reading
+    FILE *id_file = fopen(id_path, "r");
+    if (id_file == NULL) {
+        perror("Failed to open ID file");
+        return;
+    }
+
+    // Temporary file to store the new contents without the deleted ID
+    FILE *temp_file = fopen("temp.txt", "w");
+    if (temp_file == NULL) {
+        perror("Failed to open temporary file");
+        fclose(id_file);
+        return;
+    }
+
+    int id;
+    while (fscanf(id_file, "%d", &id) == 1) {
+        if (id != updated_application.loan_application_id) {
+            fprintf(temp_file, "%d\n", id);  // Write ID to temp file if it doesn't match
+        }
+    }
+
+    fclose(id_file);
+    fclose(temp_file);
+}
+
+
 void final_step(GtkWidget *app, gpointer user_data) {
     GtkWidget *window = GTK_WIDGET(user_data);
     GtkWidget *fix = g_object_get_data(G_OBJECT(window), "fix");
@@ -125,52 +273,46 @@ void final_step(GtkWidget *app, gpointer user_data) {
     GtkWidget *Approve_button = g_object_get_data(G_OBJECT(window), "Approve_button");
     GtkWidget *Reject_button = g_object_get_data(G_OBJECT(window), "Reject_button");
 
-    if (GTK_IS_WIDGET(Approve_button)) {
-        gtk_widget_set_visible(Approve_button, TRUE);
-    }
-    if (GTK_IS_WIDGET(Reject_button)) {
-        gtk_widget_set_visible(Reject_button, TRUE);
-    }
-
     int score = calculate_credit_score(user, loan_application, loan);
-    float interest_rate = suggest_interest_rate(score, loan);
+    chosen_interest_rate = suggest_interest_rate(score, loan);
+
     GtkWidget *text_10 = gtk_label_new(NULL);
     gtk_label_set_markup(GTK_LABEL(text_10), g_strdup_printf("<span font='10' weight='bold' foreground='red'>Score : %d</span>", score));
     gtk_fixed_put(GTK_FIXED(fix), text_10, 35, 420);
 
-
-
     GtkWidget *text_11 = gtk_label_new(NULL);
-    gtk_label_set_markup(GTK_LABEL(text_11), g_strdup_printf("<span font='10' weight='bold' foreground='red'>Interest Suggest : %.2f%%</span>", interest_rate));
+    gtk_label_set_markup(GTK_LABEL(text_11), g_strdup_printf("<span font='10' weight='bold' foreground='red'>Interest Suggest : %.2f%%</span>", chosen_interest_rate));
     gtk_fixed_put(GTK_FIXED(fix), text_11, 150, 420);
+
+    if (GTK_IS_WIDGET(Approve_button)) {
+        gtk_widget_set_visible(Approve_button, TRUE);
+        g_signal_connect(Approve_button, "clicked", G_CALLBACK(Approve_Application), window);
+    }
+    if (GTK_IS_WIDGET(Reject_button)) {
+        gtk_widget_set_visible(Reject_button, TRUE);
+        g_signal_connect(Approve_button, "clicked", G_CALLBACK(Reject_Application), window);
+    }
 }
 
-// Activate callback function
 void Approve_Activate(GtkApplication *app, gpointer user_data) {
-
-    loan_application_id = GPOINTER_TO_INT(user_data); // Access the loan_application_id
+    loan_application_id = GPOINTER_TO_INT(user_data);
     printf("Loan Application ID: %d\n", loan_application_id);
 
     loan_application = Read_application(loan_application_id);
     user = Read_User_1(loan_application.user_id);
     loan = Read_Loan_1(loan_application.loan_id);
 
-
-    // Create a new window for the application
     GtkWidget *window = gtk_window_new();
     gtk_window_set_title(GTK_WINDOW(window), "Window");
     gtk_window_set_default_size(GTK_WINDOW(window), 350, 600);
     gtk_window_set_resizable(GTK_WINDOW(window), FALSE);
 
-    // Create a fixed container
     GtkWidget *fix = gtk_fixed_new();
 
-    // Title 1: User Information
     GtkWidget *title_1 = gtk_label_new(NULL);
     gtk_label_set_markup(GTK_LABEL(title_1), "<span font='15' weight='bold' foreground='#000000'>User Information</span>");
     gtk_fixed_put(GTK_FIXED(fix), title_1, 10, 10);
 
-    // User Information Fields
     GtkWidget *text_1 = gtk_label_new(NULL);
     gtk_label_set_markup(GTK_LABEL(text_1), "<span font='10' weight='bold' foreground='#000000'>User Id : </span>");
     gtk_fixed_put(GTK_FIXED(fix), text_1, 10, 50);
@@ -189,7 +331,7 @@ void Approve_Activate(GtkApplication *app, gpointer user_data) {
     char full_name_text_markup[200];
     sprintf(full_name_text_markup, "<span font='10' foreground='#000000'>%s %s</span>", user.first_name, user.last_name);
     gtk_label_set_markup(GTK_LABEL(Full_Name_text), full_name_text_markup);
-    gtk_fixed_put(GTK_FIXED(fix), Full_Name_text, 90, 80);;
+    gtk_fixed_put(GTK_FIXED(fix), Full_Name_text, 90, 80);
 
     GtkWidget *text_3 = gtk_label_new(NULL);
     gtk_label_set_markup(GTK_LABEL(text_3), "<span font='10' weight='bold' foreground='#000000'>Email : </span>");
@@ -209,14 +351,12 @@ void Approve_Activate(GtkApplication *app, gpointer user_data) {
     char birthday_text_markup[100];
     sprintf(birthday_text_markup, "<span font='10' foreground='#000000'>%s</span>", user.birthday);
     gtk_label_set_markup(GTK_LABEL(birthday_text), birthday_text_markup);
-    gtk_fixed_put(GTK_FIXED(fix), birthday_text, 80, 140);gtk_fixed_put(GTK_FIXED(fix), birthday_text, 80, 140);
+    gtk_fixed_put(GTK_FIXED(fix), birthday_text, 80, 140);
 
-    // Title 2: Application Information
     GtkWidget *title_2 = gtk_label_new(NULL);
     gtk_label_set_markup(GTK_LABEL(title_2), "<span font='15' weight='bold' foreground='#000000'>Application Information</span>");
     gtk_fixed_put(GTK_FIXED(fix), title_2, 10, 180);
 
-    // Application Information Fields
     GtkWidget *text_5 = gtk_label_new(NULL);
     gtk_label_set_markup(GTK_LABEL(text_5), "<span font='10' weight='bold' foreground='#000000'>Application Id : </span>");
     gtk_fixed_put(GTK_FIXED(fix), text_5, 10, 220);
@@ -261,12 +401,9 @@ void Approve_Activate(GtkApplication *app, gpointer user_data) {
     gtk_label_set_markup(GTK_LABEL(loan_duration_text), g_strdup_printf("<span font='10' foreground='#000000'>%d Month</span>", loan_application.loan_duration));
     gtk_fixed_put(GTK_FIXED(fix), loan_duration_text, 115, 340);
 
-
-
     GtkWidget *generate_score_button = gtk_button_new_with_label("Generate Score");
     gtk_fixed_put(GTK_FIXED(fix), generate_score_button, 30, 445);
     gtk_widget_set_size_request(generate_score_button, 300, 20);
-
 
     GtkWidget *Approve_button = gtk_button_new_with_label("Approve");
     gtk_fixed_put(GTK_FIXED(fix), Approve_button, 25, 490);
@@ -285,10 +422,6 @@ void Approve_Activate(GtkApplication *app, gpointer user_data) {
 
     g_signal_connect(generate_score_button, "clicked", G_CALLBACK(final_step), window);
 
-
-    // Add the fixed container to the window
     gtk_window_set_child(GTK_WINDOW(window), fix);
-
-    // Present the main window
     gtk_window_present(GTK_WINDOW(window));
 }

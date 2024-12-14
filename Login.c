@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include "Login.h"
 #include "Login_Process_Handle_Window.h"
+#include "First_Page.h"
+#include "Forget_Password.h"
 
 void Login_UI(GtkWidget *widget, gpointer user_data) {
     GtkWidget *main_window = GTK_WIDGET(user_data);
@@ -32,12 +34,22 @@ void Login_UI(GtkWidget *widget, gpointer user_data) {
     GtkWidget *login_button = gtk_button_new_with_label("Login");
     gtk_fixed_put(GTK_FIXED(login_fix), login_button, 50, 280);
     gtk_widget_set_size_request(login_button, 250, 20);
+    g_signal_connect(login_button, "clicked", G_CALLBACK(check_login), login_window);
+
+    GtkWidget *forget_password = gtk_button_new_with_label("Forget Password");
+    gtk_fixed_put(GTK_FIXED(login_fix), forget_password, 50, 320);
+    gtk_widget_set_size_request(forget_password, 250, 20);
+    g_signal_connect(forget_password, "clicked", G_CALLBACK(Forget_Password_UI), login_window);
+
+    GtkWidget *back = gtk_button_new_with_label("Back");
+    gtk_fixed_put(GTK_FIXED(login_fix), back, 50, 360);
+    gtk_widget_set_size_request(back, 250, 20);
+    g_signal_connect(back, "clicked", G_CALLBACK(First_Page_UI), login_window);
 
     g_object_set_data(G_OBJECT(login_window), "id_entry", id_entry);
     g_object_set_data(G_OBJECT(login_window), "password_entry", password_entry);
 
 
-    g_signal_connect(login_button, "clicked", G_CALLBACK(check_login), login_window);
     gtk_window_set_child(GTK_WINDOW(login_window), login_fix);
 
     gtk_widget_set_visible(login_window, TRUE);

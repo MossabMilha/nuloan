@@ -87,7 +87,7 @@ void save_information(GtkWidget *widget, gpointer user_data) {
     Application app;
     app.loan_application_id = generate_unique_id();
     app.user_id = user_id;
-    app.loan_id = loan_id;
+    app.loan_id = loan_id+1;
     app.amount_requested = amount_needed;
     strcpy(app.application_status, "In Progress");
     time_t now = time(NULL);

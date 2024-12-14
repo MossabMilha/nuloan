@@ -7,7 +7,8 @@
 void check_SignUp(GtkWidget *widget, gpointer user_data) {
     // Retrieve the signup window from user_data
     GtkWidget *signup_window = GTK_WIDGET(user_data);
-    int is_feild_empty = 0;
+    int is_fields_empty = 0;
+    int is_fields_invalid = 0;
 
     // Retrieve the first_name information
     GtkWidget *First_Name = g_object_get_data(G_OBJECT(signup_window), "First Name");
@@ -17,13 +18,15 @@ void check_SignUp(GtkWidget *widget, gpointer user_data) {
     GtkWidget *First_Name_Button = g_object_get_data(G_OBJECT(signup_window), "First Name Image");
 
     if (strlen(first_name_text) == 0) {
-        is_feild_empty = 1;
+        is_fields_empty = 1;
         gtk_widget_set_visible(First_Name_Button, TRUE);
+        gtk_widget_set_tooltip_text(First_Name_Button, "First Name is required");
     } else {
         gtk_widget_set_visible(First_Name_Button, FALSE);
         check_first_name(first_name_text, First_Name_Button);
         if (gtk_widget_get_visible(First_Name_Button)) {
-            is_feild_empty = 1;
+            gtk_widget_set_tooltip_text(First_Name_Button, "Enter A Valid First Name");
+            is_fields_invalid = 1;
         }
     }
 
@@ -35,13 +38,15 @@ void check_SignUp(GtkWidget *widget, gpointer user_data) {
     GtkWidget *Last_Name_Button = g_object_get_data(G_OBJECT(signup_window), "Last Name Image");
 
     if (strlen(Last_Name_text) == 0) {
-        is_feild_empty = 1;
+        is_fields_empty = 1;
         gtk_widget_set_visible(Last_Name_Button, TRUE);
+        gtk_widget_set_tooltip_text(Last_Name_Button, "Last Name is required");
     } else {
         gtk_widget_set_visible(Last_Name_Button, FALSE);
         check_last_name(Last_Name_text, Last_Name_Button);
         if (gtk_widget_get_visible(Last_Name_Button)) {
-            is_feild_empty = 1;
+            gtk_widget_set_tooltip_text(Last_Name_Button, "Enter A Valid Last Name");
+            is_fields_invalid = 1;
         }
     }
 
@@ -53,13 +58,15 @@ void check_SignUp(GtkWidget *widget, gpointer user_data) {
     GtkWidget *CIN_Button = g_object_get_data(G_OBJECT(signup_window), "CIN Image");
 
     if (strlen(CIN_text) == 0) {
-        is_feild_empty = 1;
+        is_fields_empty = 1;
         gtk_widget_set_visible(CIN_Button, TRUE);
+        gtk_widget_set_tooltip_text(CIN_Button, "CIN is required");
     } else {
         gtk_widget_set_visible(CIN_Button, FALSE);
         check_CIN(CIN_text, CIN_Button);
         if (gtk_widget_get_visible(CIN_Button)) {
-            is_feild_empty = 1;
+            gtk_widget_set_tooltip_text(CIN_Button, "Enter A Valid CIN Number");
+            is_fields_invalid = 1;
         }
     }
 
@@ -71,13 +78,15 @@ void check_SignUp(GtkWidget *widget, gpointer user_data) {
     GtkWidget *Email_Button = g_object_get_data(G_OBJECT(signup_window), "Email Image");
 
     if (strlen(Email_text) == 0) {
-        is_feild_empty = 1;
+        is_fields_empty = 1;
         gtk_widget_set_visible(Email_Button, TRUE);
+        gtk_widget_set_tooltip_text(Email_Button, "Email is required");
     } else {
         gtk_widget_set_visible(Email_Button, FALSE);
         check_email(Email_text, Email_Button);
         if (gtk_widget_get_visible(Email_Button)) {
-            is_feild_empty = 1;
+            gtk_widget_set_tooltip_text(Email_Button, "Enter A Valid Email");
+            is_fields_invalid = 1;
         }
     }
 
@@ -89,13 +98,15 @@ void check_SignUp(GtkWidget *widget, gpointer user_data) {
     GtkWidget *Birthday_Button = g_object_get_data(G_OBJECT(signup_window), "Birthday Image");
 
     if (strlen(Birthday_text) == 0) {
-        is_feild_empty = 1;
+        is_fields_empty = 1;
         gtk_widget_set_visible(Birthday_Button, TRUE);
+        gtk_widget_set_tooltip_text(Birthday_Button, "Birthday is required");
     } else {
         gtk_widget_set_visible(Birthday_Button, FALSE);
         check_birthday(Birthday_text, Birthday_Button);
         if (gtk_widget_get_visible(Birthday_Button)) {
-            is_feild_empty = 1;
+            gtk_widget_set_tooltip_text(Email_Button, "Enter A Valid Birthday DD//MM//YYY");
+            is_fields_invalid = 1;
         }
     }
 
@@ -112,22 +123,26 @@ void check_SignUp(GtkWidget *widget, gpointer user_data) {
     GtkWidget *Password_Button = g_object_get_data(G_OBJECT(signup_window), "Password Image");
 
     if (strlen(Password_text) == 0 || strlen(Confirm_Password_text) == 0) {
-        is_feild_empty = 1;
+        is_fields_empty = 1;
         gtk_widget_set_visible(Password_Button, TRUE);
+        gtk_widget_set_tooltip_text(Password_Button, "The Password and The Confirmation Password is required");
     } else {
         gtk_widget_set_visible(Password_Button, FALSE);
-        check_password(Password_text, Confirm_Password_text, first_name_text, Last_Name_text, Password_Button);
+        char *message = check_password(Password_text, Confirm_Password_text, first_name_text, Last_Name_text, Password_Button);
         if (gtk_widget_get_visible(Password_Button)) {
-            is_feild_empty = 1;
+            gtk_widget_set_tooltip_text(Password_Button, message);
+            is_fields_invalid = 1;
         }
     }
 
-    if (is_feild_empty) {
+    if (is_fields_empty) {
         GtkWidget *dialog = gtk_message_dialog_new(GTK_WINDOW(signup_window), GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, "%s", "ALL Fields Required");
         g_signal_connect(dialog, "response", G_CALLBACK(gtk_window_close), NULL);
         gtk_widget_show(dialog);
-    } else {
-        // All checks passed, open a new window and close the old one
+    }else if (is_fields_invalid) {
+
+    }
+    else {
         email_checker(first_name_text, Last_Name_text, CIN_text, Email_text, Birthday_text, Password_text);
         gtk_window_close(GTK_WINDOW(signup_window));
     }

@@ -153,8 +153,8 @@ void check_birthday(const char *birthday, GtkWidget *birthday_button) {
     regfree(&regex);
 }
 
-void check_password(const gchar *password, const gchar *confirm_password, const gchar *first_name, const gchar *last_name, GtkWidget *password_button) {
-    char message[1024] = "";
+char* check_password(const gchar *password, const gchar *confirm_password, const gchar *first_name, const gchar *last_name, GtkWidget *password_button) {
+    static char message[1024] = "";
 
     // Check if password and confirmation password are identical
     if (strcmp(password, confirm_password) != 0) {
@@ -204,10 +204,13 @@ void check_password(const gchar *password, const gchar *confirm_password, const 
     // Show or hide the button based on the validation results
     if (strlen(message) > 0) {
         gtk_widget_set_visible(password_button, TRUE);
+        gtk_widget_set_tooltip_text(password_button, message);  // Set the tooltip text
         fprintf(stderr, "%s", message);  // Print the error message for debugging
     } else {
         gtk_widget_set_visible(password_button, FALSE);
         strncpy(global_password, password, sizeof(global_password) - 1);
         global_password[sizeof(global_password) - 1] = '\0';
     }
+
+    return message;
 }
