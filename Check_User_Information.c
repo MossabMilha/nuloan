@@ -1,18 +1,11 @@
-#include <ctype.h>
-#include <stdlib.h>
-#include <string.h>
-#include <gtk/gtk.h>
-#include <regex.h>
-#include <time.h>
-#include <gcrypt.h>
+#include "Check_User_Information.h"
 extern char global_first_name[50];
 extern char global_last_name[50];
 extern char global_cin[10];
 extern char global_email[50];
 extern char global_birthday[11];
 extern char global_password[50];
-#define MIN_PASSWORD_LENGTH 8
-#define SPECIAL_CHARACTERS "!@#$%^&*()-_=+[]{}|;:'\",.<>?/\\"
+
 
 void check_first_name(const char *first_name, GtkWidget *first_name_button) {
     const char *temp = first_name;

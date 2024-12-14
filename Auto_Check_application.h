@@ -10,5 +10,6 @@
 #include "Structures/Application.h"  // Include the struct for Loan_Apply
 #include "Structures/User.h"
 #include "Structures/Loans_Types.h"
+#include <errno.h>
 void Auto_Check_app();
 #endif //AUTO_CHECK_APPLICATION_H

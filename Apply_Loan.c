@@ -3,9 +3,7 @@
 //
 
 #include "Apply_Loan.h"
-#include "Active_Member.h"
-#include "Apply_Loan_More_Information.h"
-#include "Structures/Loans_Types.h"
+
 loan_type loan_info_1[6];
 void read_loan_info_1() {
     for (int i = 0; i < 6; i++) {

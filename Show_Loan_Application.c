@@ -1,22 +1,7 @@
 //
 // Created by PC on 07-Dec-24.
 //
-
 #include "Show_Loan_Application.h"
-//
-// Created by PC on 07-Dec-24.
-//
-
-#include "Show_Loan_Application.h"
-#include "Show_Loan_Application.h"
-#include <gtk/gtk.h>
-#include <dirent.h>
-#include <sys/stat.h>
-#include "Structures/Application.h"  // Include the struct for Loan_Apply
-#include "Structures/User.h"
-#include "Structures/Loans_Types.h"
-#include "Approve_Reject_Application.h"
-#include "Super_Admin.h"
 
 int count_files_in_directory_1(const char *directory_path) {
     int file_count = 0;

@@ -1,8 +1,6 @@
-#include <stdio.h>
-#include <gtk/gtk.h>
+
 #include "SignUp.h"
-#include "Check_Signup_Information.h"
-#include "First_Page.h"
+
 void Sign_Up_UI(GtkButton *button, gpointer user_data) {
     GtkWidget *main_window = GTK_WIDGET(user_data);
 

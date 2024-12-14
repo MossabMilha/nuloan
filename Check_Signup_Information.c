@@ -1,8 +1,7 @@
-#include <gtk/gtk.h>
+
 
 #include "Check_Signup_Information.h"
-#include "Check_User_Information.h"
-#include "Check_email.h"
+
 
 void check_SignUp(GtkWidget *widget, gpointer user_data) {
     // Retrieve the signup window from user_data

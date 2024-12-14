@@ -1,11 +1,7 @@
 //
 // Created by PC on 04-Dec-24.
 //
-#include <stdio.h>
-#include <gtk/gtk.h>
-#include "SignUp.h"
-#include "Login.h"
-
+#include "First_Page.h"
 
 char global_first_name[50];
 char global_last_name[50];

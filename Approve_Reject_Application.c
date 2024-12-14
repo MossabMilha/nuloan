@@ -1,11 +1,5 @@
 #include "Approve_Reject_Application.h"
-#include "Structures/User.h"
-#include "Structures/Application.h"
-#include "Structures/Loans_Types.h"
-#include <gtk/gtk.h>
-#include <stdio.h>
-#include <time.h>
-#include <string.h>
+
 
 User user;
 Application loan_application;
@@ -116,7 +110,6 @@ loan_type Read_Loan_1(int id) {
 }
 
 void Approve_Application(GtkWidget *window) {
-    printf("\nHello\n");
     Application updated_application = loan_application;
     strcpy(updated_application.application_status, "Approved");
     updated_application.interest_rate = chosen_interest_rate;
@@ -149,17 +142,12 @@ void Approve_Application(GtkWidget *window) {
             fseek(user_bin_file, -sizeof(Application), SEEK_CUR);
             fwrite(&updated_application, sizeof(Application), 1, user_bin_file);
             fclose(user_bin_file);
-            printf("Loan application approved and updated successfully.\n");
         }
     }
 
     char application_path[256];
     snprintf(application_path, sizeof(application_path), "..\\DataBase\\Application_Not_Checked\\application_%d.bin", updated_application.loan_application_id);
-    printf("%s\n", application_path);
-    if (remove(application_path) == 0) {
-        printf("Application removed from the not checked folder\n");
-    }
-
+    remove(application_path);
     // Now we will remove the ID from the Id_Of_applications.txt
     char id_path[256];
     snprintf(id_path, sizeof(id_path), "..\\DataBase\\Id_Of_applications.txt");
@@ -196,7 +184,7 @@ void Approve_Application(GtkWidget *window) {
         if (rename("temp.txt", id_path) != 0) {
             perror("Failed to rename temporary file");
         } else {
-            printf("ID successfully deleted from the file.\n");
+
         }
     }
 
@@ -223,16 +211,15 @@ void Reject_Application(GtkWidget *window) {
             fseek(user_bin_file, -sizeof(Application), SEEK_CUR);
             fwrite(&updated_application, sizeof(Application), 1, user_bin_file);
             fclose(user_bin_file);
-            printf("Loan application rejected and updated successfully.\n");
+
         }
     }
 
     char application_path[256];
     snprintf(application_path, sizeof(application_path), "..\\DataBase\\Application_Not_Checked\\application_%d.bin", updated_application.loan_application_id);
-    printf("%s\n", application_path);
-    if (remove(application_path) == 0) {
-        printf("Application removed from the not checked folder\n");
-    }
+
+    remove(application_path);
+
 
     // Now we will remove the ID from the Id_Of_applications.txt
     char id_path[256];
@@ -296,7 +283,6 @@ void final_step(GtkWidget *app, gpointer user_data) {
 
 void Approve_Activate(GtkApplication *app, gpointer user_data) {
     loan_application_id = GPOINTER_TO_INT(user_data);
-    printf("Loan Application ID: %d\n", loan_application_id);
 
     loan_application = Read_application(loan_application_id);
     user = Read_User_1(loan_application.user_id);

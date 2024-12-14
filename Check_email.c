@@ -1,12 +1,8 @@
 //
 // Created by PC on 22-Nov-24.
 //
-#include <gtk/gtk.h>
+
 #include "Check_email.h"
-#include <time.h>
-#include "Send_Email.h"
-#include "hash_password.h"
-#include "Bank_information.h"
 User new_user;
 extern char global_first_name[50];
 extern char global_last_name[50];

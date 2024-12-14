@@ -1,10 +1,5 @@
     #include "Forget_Password.h"
-    #include "Send_Email.h"
-    #include <time.h>
-    #include <stdlib.h>
-    #include "Structures/User.h"
-    #include "Check_User_Information.h"
-    #include "Structures/User.h"
+
 #include "hash_password.h"
 #include "First_Page.h"
     int global_user_id;

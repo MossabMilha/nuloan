@@ -1,10 +1,4 @@
 #include "Apply_Loan_More_Information.h"
-#include "Apply_Loan.h"
-#include "Apply_Loan_fianl.h"
-#include "Structures/Loans_Types.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <gtk/gtk.h>
 
 loan_type loan_info[6];
 

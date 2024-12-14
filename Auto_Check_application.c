@@ -1,6 +1,6 @@
 // Updated code to log the specific file that fails to open
 #include "Auto_Check_application.h"
-#include <errno.h>
+
 
 int count_files_in_directory_2(const char *directory_path) {
     int file_count = 0;
@@ -78,7 +78,6 @@ void delete_id_from_file(const char *file_name, int id_to_delete) {
 }
 
 void Auto_Check_app() {
-    printf("Auto_Check_app\n");
     sir_ltema:
         int max = count_files_in_directory_2("..\\DataBase\\Application_Not_Checked");
     for (int i = 1; i <= max; i++) {
@@ -137,7 +136,6 @@ void Auto_Check_app() {
 
             snprintf(file_name, sizeof(file_name), "..\\DataBase\\Application_Not_Checked\\application_%d.bin", loan_apply.loan_application_id);
             if (remove(file_name) == 0) {
-                printf("File '%s' deleted successfully.\n", file_name);
                 goto sir_ltema;
             } else {
                 fprintf(stderr, "Error deleting file '%s': %s\n", file_name, strerror(errno));

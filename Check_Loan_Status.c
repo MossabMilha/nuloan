@@ -3,10 +3,7 @@
 //
 
 #include "Check_Loan_Status.h"
-#include "Active_Member.h"
-#include "Structures/Application.h"
-#include "Structures/Loans_Types.h"
-#include "Check_Loan_Status_more.h"
+
 
 // Utility function to open a binary file and handle errors
 FILE *OpenFile(const char *path, const char *mode) {

@@ -1,13 +1,4 @@
-#include "Apply_Loan_More_Information.h"
 #include "Apply_Loan_fianl.h"
-
-#include "Structures/Loans_Types.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <gtk/gtk.h>
-#include <time.h>
-#include "Structures/Application.h"
 
 // Array to store loan details
 loan_type loans[6];

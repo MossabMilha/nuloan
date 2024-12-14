@@ -3,15 +3,7 @@
 //
 
 #include "Bank_information.h"
-#include "Check_Bank_Information.h"
-#include "Structures/Bank_User_info.h"
-#include "Save_file.h"
-#include "First_Page.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <gtk/gtk.h>
-#include <ctype.h>
+
 
 extern User new_user;
 Bank_User_info new_bank_user_info;
@@ -49,7 +41,6 @@ void Check_Bank_Information(GtkWidget *widget, gpointer user_data) {
         gtk_widget_set_visible(Account_Holder_Name_Button, FALSE);
         gtk_widget_set_visible(Account_Number_Button, FALSE);
         new_bank_user_info.bank_id = new_user.user_id;
-        printf("debug 2 : %d\n", new_user.user_id);
         new_bank_user_info.user_id = new_user.user_id;
         strcpy(new_bank_user_info.bank_name, Bank_Name_text);
         strcpy(new_bank_user_info.account_type, Account_Type_text);
@@ -58,7 +49,6 @@ void Check_Bank_Information(GtkWidget *widget, gpointer user_data) {
         time(&new_bank_user_info.created_at);
         time(&new_bank_user_info.updated_at);
         if(Save_Signup_Information(new_user, new_bank_user_info)) {
-            printf("the Bank Information is saved successfully\n");
             First_Page_UI(NULL, Bank_Information);
         }
 
@@ -75,7 +65,7 @@ void Check_Bank_Information(GtkWidget *widget, gpointer user_data) {
         if (!is_empty(Account_Type_text)) {
 
         }else {
-            printf("The Field of Account Type is Empty\n");
+
         }
         if (is_Account_Holder_Name_Valid(Account_Holder_Name_text)) {
             gtk_widget_set_visible(Account_Holder_Name_Button, FALSE);

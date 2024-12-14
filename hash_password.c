@@ -1,8 +1,5 @@
 // Created by: MMILHA
-#include <string.h>
-#include <gcrypt.h>
 #include "hash_password.h"
-#define key "1A5"
 void hash_password(const char *password, unsigned char *output) {
     size_t key_len = strlen(key);
     gcry_md_hd_t hd;

@@ -3,10 +3,7 @@
 //
 
 #include "Check_Loan_Status_more.h"
-#include "Structures/Application.h"
-#include "Structures/User.h"
-#include "Structures/Loans_Types.h"
-#include "Check_Loan_Status.h"
+
 Application Read_application_A(int user_id,int app_id){
   char path[256];
     sprintf(path, "..\\DataBase\\Applications\\user_%d.bin", user_id);

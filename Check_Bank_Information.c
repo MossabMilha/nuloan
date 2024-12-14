@@ -4,9 +4,6 @@
 
 #include "Check_Bank_Information.h"
 
-#include <string.h>
-#include <gtk/gtk.h>
-#include <ctype.h>
 bool is_empty(const gchar *elm_text) {
     if(strlen(elm_text) == 0){
         return TRUE;

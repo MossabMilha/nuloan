@@ -1,9 +1,4 @@
-#include <stdio.h>
-#include <gtk/gtk.h>
-#include "Show_Users.h"
-#include "Show_Loan_Application.h"
-#include "Auto_Check_application.h"
-#include "First_Page.h"
+#include "Super_Admin.h"
 
 void Admin_Page(GtkWidget *widget, gpointer user_data) {
     GtkWidget *main_window = GTK_WIDGET(user_data);

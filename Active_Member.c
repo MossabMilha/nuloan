@@ -1,10 +1,5 @@
-#include <stdio.h>
-#include <gtk/gtk.h>
+
 #include "Active_Member.h"
-#include "Apply_Loan.h"
-#include "Check_Loan_Status.h"
-#include "First_Page.h"
-#include "Structures/User.h"
 
 
 
@@ -25,10 +20,8 @@ void Active_Member_Page(GtkWidget *widget, gpointer user_data){
     User user;
     char path[100];
     snprintf(path, sizeof(path), "..\\DataBase\\Users\\user_%d.bin", id);
-    printf("%d\n", id);
     FILE *file = fopen(path, "rb");
     if (file == NULL) {
-        printf("User not found\n");
         return;
     }
     fread(&user, sizeof(User), 1, file);

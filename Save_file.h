@@ -9,6 +9,5 @@
 #include <gtk/gtk.h>
 #include "Structures/User.h"
 #include "Structures/Bank_User_info.h"
-
 bool Save_Signup_Information(User user, Bank_User_info bank_user_info);
 #endif //SAVE_FILE_H

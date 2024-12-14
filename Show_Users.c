@@ -1,9 +1,6 @@
-#include <gtk/gtk.h>
-#include <dirent.h>
-#include <sys/stat.h>
+
 #include "Show_Users.h"
-#include "Structures/User.h"
-#include "Super_Admin.h"
+
 
 
 int count_files_in_directory(const char *directory_path) {

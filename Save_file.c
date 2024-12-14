@@ -3,7 +3,6 @@
 //
 
 #include "Save_file.h"
-
     bool Save_Signup_Information(User user, Bank_User_info bank_user_info) {
     char user_path[100], bank_user_info_path[100];
         printf("debug 3 : %d\n", user.user_id);

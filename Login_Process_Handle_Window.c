@@ -3,11 +3,7 @@
 //
 
 #include "Login_Process_Handle_Window.h"
-#include "hash_password.h"
-#include "Structures/User.h"
-#include "Super_Admin.h"
-#include "Active_Member.h"
-#include <string.h>
+
 
 
 void check_login(GtkWidget *widget, gpointer user_data) {

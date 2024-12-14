@@ -1,8 +1,6 @@
-#include <stdio.h>
+
 #include "Login.h"
-#include "Login_Process_Handle_Window.h"
-#include "First_Page.h"
-#include "Forget_Password.h"
+
 
 void Login_UI(GtkWidget *widget, gpointer user_data) {
     GtkWidget *main_window = GTK_WIDGET(user_data);
