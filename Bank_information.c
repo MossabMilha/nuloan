@@ -106,10 +106,18 @@ void Bank_Information_open(gpointer user_data) {
     gtk_window_set_child(GTK_WINDOW(Bank_Information), Bank_Information_Fix);
 
     // Bank Name entry
-    GtkWidget *Bank_Name_Entry = gtk_entry_new();
-    gtk_entry_set_placeholder_text(GTK_ENTRY(Bank_Name_Entry), "Bank Name");
-    gtk_fixed_put(GTK_FIXED(Bank_Information_Fix), Bank_Name_Entry, 45, 200);
-    gtk_widget_set_size_request(Bank_Name_Entry, 250, 25);
+    const gchar *valid_bank_names[] = {
+        "Attijariwafa Bank", "BMCE", "Bank of Africa", "Banque Populaire",
+        "BPMC", "CIH", "Crédit du Maroc", "Société Générale",
+        "BMCI", "Poste Maroc", "Barid Bank"
+    };
+    GtkStringList *bank_names_model = gtk_string_list_new(valid_bank_names);
+    GtkWidget *bank_name_dropdown = gtk_drop_down_new(G_LIST_MODEL(bank_names_model), NULL);
+
+    // Position the dropdown in the same way as the original GtkEntry
+    gtk_fixed_put(GTK_FIXED(Bank_Information_Fix), bank_name_dropdown, 45, 200);
+    gtk_widget_set_size_request(bank_name_dropdown, 250, 25);
+
     //Bank Name image
     GtkWidget *Bank_Name_Button = gtk_button_new();
     GtkWidget *Bank_Name_image = gtk_image_new_from_file("..\\images\\info_red.png");
@@ -163,7 +171,7 @@ void Bank_Information_open(gpointer user_data) {
     gtk_widget_set_sensitive(Account_Number_Button, FALSE);
 
     g_object_set_data(G_OBJECT(Bank_Information), "Bank_Information_Fix", Bank_Information_Fix);
-    g_object_set_data(G_OBJECT(Bank_Information), "Bank_Name_Entry", Bank_Name_Entry);
+    // g_object_set_data(G_OBJECT(Bank_Information), "Bank_Name_Entry", Bank_Name_Entry);
     g_object_set_data(G_OBJECT(Bank_Information), "Bank_Name_Button", Bank_Name_Button);
     g_object_set_data(G_OBJECT(Bank_Information), "Account_Type_Entry", Account_Type_Entry);
     g_object_set_data(G_OBJECT(Bank_Information), "Account_Type_Button", Account_Type_Button);
